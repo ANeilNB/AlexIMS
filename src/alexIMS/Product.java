@@ -6,7 +6,7 @@ package alexIMS;
  * low.
  * Product also encapsulates the methods for obtaining the stock levels relevant to
  * it from a database and updating the database should the stock levels change.
- * @author aneil
+ * @author Alexander Neil
  *
  */
 public class Product {
@@ -14,7 +14,7 @@ public class Product {
 	protected int productId;
 	protected String productName;
 	protected int currentStock;
-	protected int currentPrice;
+	protected double currentPrice;
 	protected int criticalStock;
 	
 	public Product(int productId){
@@ -31,7 +31,7 @@ public class Product {
 	 * @param currentPrice Price of the product.
 	 * @param criticalStock Amount of stock that is considered critically low.
 	 */
-	public Product(String productName, int currentStock, int currentPrice, int criticalStock){
+	public Product(String productName, int currentStock, double currentPrice, int criticalStock){
 		this.productName = productName;
 		this.currentStock = currentStock;
 		this.criticalStock = criticalStock;
@@ -40,6 +40,17 @@ public class Product {
 		 * Create new row in Products table in the database for the product.
 		 */
 		this.productId = (Integer) null; //Will be gotten from database's auto incremented ID when row is created.
+	}
+	
+	public Product(int productId, String productName, int currentStock, double currentPrice, int criticalStock){
+		this.productId = productId;
+		this.productName = productName;
+		this.currentStock = currentStock;
+		this.criticalStock = criticalStock;
+		this.currentPrice = currentPrice;
+		/*
+		 * Create new row in Products table in the database for the product.
+		 */
 	}
 	
 	public int getCurrentStock() {
@@ -54,7 +65,7 @@ public class Product {
 	public String getProductName() {
 		return productName;
 	}
-	public int getCurrentPrice() {
+	public double getCurrentPrice() {
 		return currentPrice;
 	}
 	public int getCriticalStock() {

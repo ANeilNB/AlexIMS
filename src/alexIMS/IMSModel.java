@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author aneil
+ * @author Alexander Neil
  *
  */
 public class IMSModel {
@@ -13,5 +13,19 @@ public class IMSModel {
 	
 	IMSModel(){
 		productList = new ArrayList<Product>();
+	}
+	
+	//Was for task1 debug, testing 
+	/*
+	protected void printStock(){
+		System.out.println("Id\tName \t\t\tStock");
+		for(Product p : productList){
+			System.out.println(p.getProductId() + "\t" + p.getProductName() + "\t\t" + p.getCurrentStock());
+		}
+	}
+	*/
+	
+	protected void addProduct(Product newProduct){
+		productList.add(newProduct);
 	}
 }
