@@ -1,5 +1,9 @@
 package alexIMS;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * The Product class acts as a container for all the data referring to a product in
  * the IMS. It also contains methods for determining if it's own stock levels are 
@@ -8,8 +12,6 @@ package alexIMS;
  * it from a database and updating the database should the stock levels change.
  * @author Alexander Neil
  *
- * Git test change!
- * Change 2, nano boogaloo!
  */
 public class Product {
 
@@ -75,9 +77,31 @@ public class Product {
 	}
 	
 	protected void updateStock(){
-		/*
-		 * Update currentStock with data from database
-		 */
+		System.out.println("Testing Database!");
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+		}
+		catch (ClassNotFoundException e){
+			System.out.println("Where is your MySQL JDBC Driver?");
+			e.printStackTrace();
+			return;
+		}
+		
+		System.out.println("MySQL Driver is go!");
+		Connection connection = null;
+		
+		try{
+			connection = DriverManager
+				.getConnection("jdbc:mysql://localhost:3306", "imanager", "nbgardens");
+		}
+		catch(SQLException e){
+			System.out.println("Connection Failed!");
+			e.printStackTrace();
+			return;
+		}
+		
+		//unfinished test due to MySQL server issues
 	}
 	
 	protected void updateDatabase(){
