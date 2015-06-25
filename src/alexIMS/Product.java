@@ -8,6 +8,7 @@ package alexIMS;
  * it from a database and updating the database should the stock levels change.
  * @author Alexander Neil
  *
+ * Git test change!
  */
 public class Product {
 
