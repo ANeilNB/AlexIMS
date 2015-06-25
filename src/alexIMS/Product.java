@@ -9,6 +9,7 @@ package alexIMS;
  * @author Alexander Neil
  *
  * Git test change!
+ * Change 2, nano boogaloo!
  */
 public class Product {
 
