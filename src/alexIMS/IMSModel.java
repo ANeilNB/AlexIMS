@@ -84,6 +84,7 @@ public class IMSModel {
 				
 				/*
 				 * Generates a random number to pick an entry from productList, then decrements it's current stock by a random number that is between 0 and 10.
+				 * Could perhaps decrement something in relation to critical stock.
 				 */
 				int i;
 				productList.get(i =randomGenerator.nextInt(productList.size())).setCurrentStock(productList.get(i).getCurrentStock() - randomGenerator.nextInt(10));

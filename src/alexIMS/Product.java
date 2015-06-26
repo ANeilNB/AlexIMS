@@ -61,6 +61,9 @@ public class Product {
 		return currentStock;
 	}
 	public void setCurrentStock(int newStock) {
+		/*
+		 * While decrementing stock, prints messages if stock is low or depleted.
+		 */
 		this.currentStock = newStock;
 		if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
 		else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
