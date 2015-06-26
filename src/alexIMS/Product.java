@@ -62,6 +62,8 @@ public class Product {
 	}
 	public void setCurrentStock(int newStock) {
 		this.currentStock = newStock;
+		if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
+		else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
 	}
 	public int getProductId() {
 		return this.productId;
@@ -77,6 +79,7 @@ public class Product {
 	}
 	
 	protected void updateStock(){
+		/*
 		System.out.println("Testing Database!");
 		
 		try{
@@ -100,7 +103,7 @@ public class Product {
 			e.printStackTrace();
 			return;
 		}
-		
+		*/
 		//unfinished test due to MySQL server issues
 	}
 	

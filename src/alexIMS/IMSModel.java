@@ -8,6 +8,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 
@@ -17,6 +20,8 @@ import java.util.Calendar;
 public class IMSModel {
 	
 	private ArrayList<Product> productList;
+	
+	Timer simulationTimer;
 	
 	//Simple string for use with String.format to create table-like alignment for stock report file
 	private final String reportFormat = "%-6s\t%-45s\t%-5s" + System.getProperty("line.separator");
@@ -66,5 +71,24 @@ public class IMSModel {
 	
 	protected void addProduct(Product newProduct){
 		productList.add(newProduct);
+	}
+	
+	void enableDecrementTimer(){
+		simulationTimer = new Timer();
+		
+		simulationTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("Timer is go!");
+				Random randomGenerator = new Random();
+				
+				/*
+				 * Generates a random number to pick an entry from productList, then decrements it's current stock by a random number that is between 0 and 10.
+				 */
+				int i;
+				productList.get(i =randomGenerator.nextInt(productList.size())).setCurrentStock(productList.get(i).getCurrentStock() - randomGenerator.nextInt(10));
+				System.out.println(productList.get(i).getProductName() + " decremented. Stock now at: " + productList.get(i).getCurrentStock());
+			}
+		}, 10*1000, 10*1000);
 	}
 }

@@ -18,7 +18,8 @@ public class IMSRunner {
 		model.addProduct(new Product(9,"Tiny Fountain", 99, 2.50, 15));
 		model.addProduct(new Product(10,"Gnome Gnome",75, 10.00,12));
 		
-		model.printStockReport();
+		model.enableDecrementTimer();
+		//model.printStockReport();
 		//model.printStock();
 	}
 
