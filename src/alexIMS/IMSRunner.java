@@ -5,6 +5,7 @@ public class IMSRunner {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		IMSModel model = new IMSModel();
+		IMSView view = new IMSView(model);
 		
 		//populating model for testing purposes
 		model.addProduct(new Product(1,"Gnom", 3, 2.50, 1));
@@ -18,9 +19,10 @@ public class IMSRunner {
 		model.addProduct(new Product(9,"Tiny Fountain", 99, 2.50, 15));
 		model.addProduct(new Product(10,"Gnome Gnome",75, 10.00,12));
 		
-		model.enableDecrementTimer();
+		//model.enableDecrementTimer();
 		//model.printStockReport();
 		//model.printStock();
+		
 	}
 
 }
