@@ -19,7 +19,7 @@ import java.util.TimerTask;
  */
 public class IMSModel {
 	
-	private ArrayList<Product> productList;
+	ArrayList<Product> productList;
 	
 	Timer simulationTimer;
 	
