@@ -15,16 +15,28 @@ import javax.swing.table.DefaultTableModel;
 public class IMSView {
 
 	IMSModel model;
+	IMSController controller;
+
+	JFrame mainFrame;
+	JPanel mainPanel;
+	JTable productTable;
+	final Object[] COLUMN_NAMES = {"Product Id", "Product Name", "Stock", "Critical Stock", "Price"};
+	DefaultTableModel tableModel;
+	
 	
 	IMSView(IMSModel model){
 		this.model = model;
 		
-		initUI();
 	}
 	
-	private void initUI(){
+	void addController(IMSController controller){
+		this.controller = controller;
+	}
+	
+	
+	void initUI(){
 		
-		JFrame mainFrame = new JFrame();
+		mainFrame = new JFrame();
 		mainFrame.setTitle("NB Gardens IMS");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -32,20 +44,38 @@ public class IMSView {
 		topMenuBar.setOpaque(true);
 		topMenuBar.setPreferredSize(new Dimension(200, 20));
 		
-		JPanel mainPanel = new JPanel();
+		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout()); 
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4,1));
 		
 		//IMSTableModel tableModel = new IMSTableModel();
-		Object[] columnNames = {"Product Id", "Product Name", "Stock", "Critical Stock", "Price"};
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+		
+		initializeTable();
+		tableModel.addTableModelListener(controller);
+
+		
+		
+		JButton refreshButton = new JButton("Refresh");
+		JButton addButton = new JButton("Add");
+		
+		
+		mainPanel.add(buttonPanel, BorderLayout.EAST);
+		
+		mainFrame.setJMenuBar(topMenuBar);
+		mainFrame.setContentPane(mainPanel);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+	}
+	
+	void initializeTable(){
+		tableModel = new DefaultTableModel(COLUMN_NAMES, 0);
 		for(Product p : model.productList){
 			Object[] oArray = {p.getProductId(), p.getProductName(), p.getCurrentStock(), p.getCriticalStock(), p.getPrice()};
 			tableModel.addRow(oArray);
 		}
-		JTable productTable = new JTable(tableModel){
+		productTable = new JTable(tableModel){
 			@Override
 			public boolean isCellEditable(int row, int column){
 				if(column == 2) return true;
@@ -55,16 +85,9 @@ public class IMSView {
 		productTable.getTableHeader().setReorderingAllowed(false);
 		productTable.getTableHeader().setResizingAllowed(false);
 		
-		JButton refreshButton = new JButton("Refresh");
-		JButton addButton = new JButton("Add");
-		
 		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
-		mainPanel.add(buttonPanel, BorderLayout.EAST);
 		
-		mainFrame.setJMenuBar(topMenuBar);
-		mainFrame.setContentPane(mainPanel);
-		mainFrame.pack();
-		mainFrame.setVisible(true);
+		System.out.println("Table call");
 	}
 	
 }

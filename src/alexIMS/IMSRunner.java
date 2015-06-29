@@ -71,7 +71,12 @@ public class IMSRunner {
 			System.out.println("Closed Database!");
 		}
 		
+		
 		IMSView view = new IMSView(model);
+		IMSController controller = new IMSController(model, view);
+		view.addController(controller);
+		
+		view.initUI();
 		//model.enableDecrementTimer();
 		//model.printStockReport();
 		//model.printStock();
