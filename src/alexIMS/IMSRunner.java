@@ -71,6 +71,8 @@ public class IMSRunner {
 			System.out.println("Closed Database!");
 		}
 		
+		//model.addProduct(new Product("James", 20, 15.50, 2));
+		
 		
 		IMSView view = new IMSView(model);
 		IMSController controller = new IMSController(model, view);

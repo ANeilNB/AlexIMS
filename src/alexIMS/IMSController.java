@@ -42,7 +42,7 @@ public class IMSController implements ActionListener, TableModelListener {
 			}	
 		}
 		catch(NumberFormatException nfe){
-			JOptionPane.showMessageDialog(view.mainFrame, "Not a valid number!");
+			JOptionPane.showMessageDialog(view.mainFrame, "Not a valid number!", "Input Error!", JOptionPane.ERROR_MESSAGE);
 			view.tableModel.setValueAt(String.valueOf(model.productList.get(row).getCurrentStock()), row, e.getColumn());
 		}
 		finally{

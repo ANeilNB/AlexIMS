@@ -91,9 +91,47 @@ public class Product {
 		this.currentStock = currentStock;
 		this.criticalStock = criticalStock;
 		this.currentPrice = currentPrice;
-		/*
-		 * Create new row in Products table in the database for the product.
-		 */
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try{
+			Class.forName(JDBC_DRIVER);
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+			String sqlQuery = "INSERT INTO products (product_name, current_stock, critical_stock, product_price) VALUES (?,?,?,?);";
+			stmt = conn.prepareStatement(sqlQuery);
+			stmt.setString(1, productName);
+			stmt.setInt(2,currentStock);
+			stmt.setInt(3, criticalStock);
+			stmt.setDouble(4, currentPrice);
+			
+			int result = stmt.executeUpdate();
+			
+			System.out.println("Update result: " + result);
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(stmt != null)conn.close();
+			}
+			catch (SQLException e){}
+			try{
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			System.out.println("Closed Database!");
+		}
+		
 		this.productId = (Integer) null; //Will be gotten from database's auto incremented ID when row is created.
 	}
 	
