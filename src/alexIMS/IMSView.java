@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -38,15 +39,24 @@ public class IMSView {
 		buttonPanel.setLayout(new GridLayout(4,1));
 		
 		//IMSTableModel tableModel = new IMSTableModel();
-		Object[] columnNames = {"Product Id", "Product Name", "Stock"};
+		Object[] columnNames = {"Product Id", "Product Name", "Stock", "Critical Stock", "Price"};
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-				
 		for(Product p : model.productList){
-			Object[] oArray = {p.getProductId(), p.getProductName(), p.getCurrentStock()};
+			Object[] oArray = {p.getProductId(), p.getProductName(), p.getCurrentStock(), p.getCriticalStock(), p.getPrice()};
 			tableModel.addRow(oArray);
 		}
+		JTable productTable = new JTable(tableModel){
+			@Override
+			public boolean isCellEditable(int row, int column){
+				if(column == 2) return true;
+				return false;
+			}
+		};
+		productTable.getTableHeader().setReorderingAllowed(false);
+		productTable.getTableHeader().setResizingAllowed(false);
 		
-		JTable productTable = new JTable(tableModel);
+		JButton refreshButton = new JButton("Refresh");
+		JButton addButton = new JButton("Add");
 		
 		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
 		mainPanel.add(buttonPanel, BorderLayout.EAST);

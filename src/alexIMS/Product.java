@@ -2,7 +2,10 @@ package alexIMS;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * The Product class acts as a container for all the data referring to a product in
@@ -21,12 +24,60 @@ public class Product {
 	protected double currentPrice;
 	protected int criticalStock;
 	
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://localhost/nb_ims";
+	static final String USER = "imanager";
+	static final String PASS = "nbgardens";
+	
 	public Product(int productId){
 		this.productId = productId;
 		/*
 		 * Access database and read values for productName, currentStock, criticalStock
 		 * and currentPrice from the database.
 		 */
+		Connection con;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try{
+			Class.forName(JDBC_DRIVER);
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+			String sqlQuery = "SELECT product_name, current_stock, critical_stock, product_price FROM products WHERE product_id = ?;";
+			stmt = conn.prepareStatement(sqlQuery);
+			stmt.setInt(1, productId);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			rs.next();
+			
+			this.productName = rs.getString("product_name");
+			this.currentStock = rs.getInt("current_stock");
+			this.criticalStock = rs.getInt("critical_stock");
+			this.currentPrice = rs.getDouble("product_price");
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(stmt != null)conn.close();
+			}
+			catch (SQLException e){}
+			try{
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			System.out.println("Closed Database!");
+		}
+		
 	}
 	/**
 	 * Constructor used to manually create a new product not currently in the database.
@@ -62,6 +113,7 @@ public class Product {
 	}
 	public void setCurrentStock(int newStock) {
 		/*
+		 * TEST CODE
 		 * While decrementing stock, prints messages if stock is low or depleted.
 		 */
 		this.currentStock = newStock;
@@ -81,33 +133,12 @@ public class Product {
 		return criticalStock;
 	}
 	
+	public double getPrice() {
+		return currentPrice;
+	}
+	
 	protected void updateStock(){
-		/*
-		System.out.println("Testing Database!");
-		
-		try{
-			Class.forName("com.mysql.jdbc.Driver");
-		}
-		catch (ClassNotFoundException e){
-			System.out.println("Where is your MySQL JDBC Driver?");
-			e.printStackTrace();
-			return;
-		}
-		
-		System.out.println("MySQL Driver is go!");
-		Connection connection = null;
-		
-		try{
-			connection = DriverManager
-				.getConnection("jdbc:mysql://localhost:3306", "imanager", "nbgardens");
-		}
-		catch(SQLException e){
-			System.out.println("Connection Failed!");
-			e.printStackTrace();
-			return;
-		}
-		*/
-		//unfinished test due to MySQL server issues
+
 	}
 	
 	protected void updateDatabase(){
