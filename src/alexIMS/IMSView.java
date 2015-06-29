@@ -1,9 +1,13 @@
 package alexIMS;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,25 +25,36 @@ public class IMSView {
 		
 		JFrame mainFrame = new JFrame();
 		mainFrame.setTitle("NB Gardens IMS");
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar topMenuBar = new JMenuBar();
+		topMenuBar.setOpaque(true);
+		topMenuBar.setPreferredSize(new Dimension(200, 20));
 		
 		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setLayout(new BorderLayout()); 
 		
-		String[] tableColumns = {"Id, Product Name, Current Stock"};
-		JTable productTable = new JTable(new IMSTableModel(model.productList));
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(4,1));
 		
-	}
-	
-	
-	
-	private Object[][] populateTable(){
-		Object[][] productTableData = new Object[model.productList.size()][3];
-		
-		for(int i=0; i<model.productList.size(); i++){
-			productTableData[i][0] = model.productList.get(i).getProductId();
-			productTableData[i][1] = model.productList.get(i).getProductName();
-			productTableData[i][0] = model.productList.get(i).getCurrentStock();
+		//IMSTableModel tableModel = new IMSTableModel();
+		Object[] columnNames = {"Product Id", "Product Name", "Stock"};
+		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+				
+		for(Product p : model.productList){
+			Object[] oArray = {p.getProductId(), p.getProductName(), p.getCurrentStock()};
+			tableModel.addRow(oArray);
 		}
-		return productTableData;
+		
+		JTable productTable = new JTable(tableModel);
+		
+		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
+		mainPanel.add(buttonPanel, BorderLayout.EAST);
+		
+		mainFrame.setJMenuBar(topMenuBar);
+		mainFrame.setContentPane(mainPanel);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
 	}
+	
 }

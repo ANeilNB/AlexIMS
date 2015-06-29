@@ -11,13 +11,9 @@ public class IMSTableModel extends AbstractTableModel {
 	private Class[] columnTypes = {Integer.class, String.class, Integer.class};
 	private List<Object[]> data;
 	
-	public IMSTableModel(ArrayList<Product> products){
+	public IMSTableModel(){
 		super();
 		data = new ArrayList<Object[]>();
-		for(Product p : products){
-			Object[] productData = {p.getProductId(), p.getProductName(), p.getCurrentStock()};
-			data.add(productData);
-		}
 	}
 	
 	@Override
@@ -33,9 +29,20 @@ public class IMSTableModel extends AbstractTableModel {
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int colIndex) {
+	public Object getValueAt(int row, int column) {
 		// TODO Auto-generated method stub
-		return data.get(rowIndex)[colIndex];
+		return data.get(row)[column];
+	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column){
+		if(column == 3) return true;
+		return false;
+	}
+
+	public void addRow(Object[] oArray) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
