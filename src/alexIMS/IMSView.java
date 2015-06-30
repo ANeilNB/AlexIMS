@@ -81,7 +81,7 @@ public class IMSView {
 		
 		
 		JButton refreshButton = new JButton("Refresh");
-		JButton addButton = new JButton("Add");
+		JButton addButton = new JButton("Add Product");
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.setEnabled(false);
 		

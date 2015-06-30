@@ -16,6 +16,8 @@ public class IMSController implements ActionListener, TableModelListener {
 	private IMSModel model;
 	private IMSView view;
 	
+	private IMSAddView addDialog;
+	
 	public IMSController(IMSModel model, IMSView view){
 		this.model = model;
 		this.view = view;
@@ -24,16 +26,34 @@ public class IMSController implements ActionListener, TableModelListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		
+		System.out.println(e.getActionCommand());
 		String actionName = e.getActionCommand();
 		
 		switch (actionName){
-		case "Add":
-			IMSAddView addDialog = new IMSAddView(view.mainFrame);
+		case "Add Product":
+			
+			addDialog = new IMSAddView(view.mainFrame);	
+			
+			addDialog.setAddActionListener(this);
+			
+			addDialog.initGUI();
 			
 			break;
 		case "Refresh":
 			break;
 		case "Delete":
+			break;
+		case "Add":
+			if(addDialog != null){
+				
+				if(addDialog.validateInput()){
+					addDialog.dispose();
+				}
+				else{
+					JOptionPane.showMessageDialog(view.mainFrame, "Invalid input", "Error", 0);
+				}
+			}
 			break;
 		case "Print Stock Report":
 			model.printStockReport();
@@ -46,6 +66,7 @@ public class IMSController implements ActionListener, TableModelListener {
 		default:
 			break;
 		}
+		//System.out.println("Action complete!");
 	}
 
 	@Override
@@ -82,5 +103,4 @@ public class IMSController implements ActionListener, TableModelListener {
 			System.out.println(model.productList.get(row).getCurrentStock());
 		}
 	}
-
 }

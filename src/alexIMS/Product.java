@@ -24,6 +24,8 @@ public class Product {
 	protected double currentPrice;
 	protected int criticalStock;
 	
+	Connection conn;
+	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost/nb_ims";
 	static final String USER = "imanager";
@@ -35,9 +37,9 @@ public class Product {
 		 * Access database and read values for productName, currentStock, criticalStock
 		 * and currentPrice from the database.
 		 */
-		Connection con;
 		
-		Connection conn = null;
+		
+		conn = null;
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(JDBC_DRIVER);
@@ -92,8 +94,8 @@ public class Product {
 		this.criticalStock = criticalStock;
 		this.currentPrice = currentPrice;
 		
-		Connection conn = null;
 		PreparedStatement stmt = null;
+		ResultSet rs;
 		try{
 			Class.forName(JDBC_DRIVER);
 			System.out.println("Connecting to database...");
@@ -101,13 +103,19 @@ public class Product {
 			
 			
 			String sqlQuery = "INSERT INTO products (product_name, current_stock, critical_stock, product_price) VALUES (?,?,?,?);";
-			stmt = conn.prepareStatement(sqlQuery);
+			stmt = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, productName);
 			stmt.setInt(2,currentStock);
 			stmt.setInt(3, criticalStock);
 			stmt.setDouble(4, currentPrice);
 			
 			int result = stmt.executeUpdate();
+			
+			rs = stmt.getGeneratedKeys();
+	
+			rs.next();
+			
+			this.productId = rs.getInt(1);
 			
 			System.out.println("Update result: " + result);
 			
@@ -131,19 +139,6 @@ public class Product {
 			}
 			System.out.println("Closed Database!");
 		}
-		
-		this.productId = (Integer) null; //Will be gotten from database's auto incremented ID when row is created.
-	}
-	
-	public Product(int productId, String productName, int currentStock, double currentPrice, int criticalStock){
-		this.productId = productId;
-		this.productName = productName;
-		this.currentStock = currentStock;
-		this.criticalStock = criticalStock;
-		this.currentPrice = currentPrice;
-		/*
-		 * Create new row in Products table in the database for the product.
-		 */
 	}
 	
 	public int getCurrentStock() {
@@ -180,13 +175,10 @@ public class Product {
 	}
 	
 	protected void updateDatabase(){
-		Connection conn = null;
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(JDBC_DRIVER);
-			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			
+			System.out.println("Connecting to database...");			
 			
 			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?;";
 			stmt = conn.prepareStatement(sqlQuery);
