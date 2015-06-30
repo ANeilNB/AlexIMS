@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -104,12 +105,10 @@ public class IMSView {
 		mainFrame.pack();
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
-	}
-	
-	void initializeAddUI(){
 		
-		JFrame addFrame = new JFrame("Add New Product");
+		IMSAddView temp = new IMSAddView(mainFrame);
 	}
+
 	
 	void initializeTable(){
 		tableModel = new DefaultTableModel(COLUMN_NAMES, 0);

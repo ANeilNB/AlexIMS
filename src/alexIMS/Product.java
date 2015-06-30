@@ -151,9 +151,10 @@ public class Product {
 	}
 	public void setCurrentStock(int newStock) {
 		
-		updateDatabase();
-		
 		this.currentStock = newStock;
+		
+		updateDatabase();
+				
 		if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
 		else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
 	}
@@ -187,12 +188,14 @@ public class Product {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
 			
-			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?";
+			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?;";
 			stmt = conn.prepareStatement(sqlQuery);
 			stmt.setInt(1, this.currentStock);
-			stmt.setInt(2, productId);
+			stmt.setInt(2, this.productId);
 			
 			int result = stmt.executeUpdate();
+			
+			System.out.println(result);
 			
 		}
 		catch(SQLException e){
@@ -204,7 +207,7 @@ public class Product {
 			try{
 				if(stmt != null)conn.close();
 			}
-			catch (SQLException e){}
+			catch (SQLException e){	}
 			try{
 				if(conn != null)
 					conn.close();

@@ -37,11 +37,17 @@ public class IMSController implements ActionListener, TableModelListener {
 		try{
 			int newStock = Integer.parseInt((String) tableModel.getValueAt(row, 2));
 			
-			for(Product p : model.productList){
-				if(productId == p.getProductId()){
-					p.setCurrentStock(newStock);
+			if((newStock < 0)||(newStock > 2500)){
+				JOptionPane.showMessageDialog(view.mainFrame, "Unreasonable value. (Below 0 or above 2500)", "Input Error!", JOptionPane.ERROR_MESSAGE);
+				view.tableModel.setValueAt(String.valueOf(model.productList.get(row).getCurrentStock()), row, e.getColumn());
+			}
+			else{
+				for(Product p : model.productList){
+					if(productId == p.getProductId()){
+						p.setCurrentStock(newStock);
+					}
 				}
-			}	
+			}
 		}
 		catch(NumberFormatException nfe){
 			JOptionPane.showMessageDialog(view.mainFrame, "Not a valid number!", "Input Error!", JOptionPane.ERROR_MESSAGE);
