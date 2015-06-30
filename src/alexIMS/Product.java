@@ -94,6 +94,7 @@ public class Product {
 		this.criticalStock = criticalStock;
 		this.currentPrice = currentPrice;
 		
+		conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try{
@@ -141,6 +142,17 @@ public class Product {
 		}
 	}
 	
+	public Product(int productId, String productName, int currentStock, double currentPrice, int criticalStock){
+		this.productId = productId;
+		this.productName = productName;
+		this.currentStock = currentStock;
+		this.criticalStock = criticalStock;
+		this.currentPrice = currentPrice;
+		/*
+		 * Create new row in Products table in the database for the product.
+		 */
+	}
+	
 	public int getCurrentStock() {
 		return currentStock;
 	}
@@ -175,6 +187,8 @@ public class Product {
 	}
 	
 	protected void updateDatabase(){
+		
+		conn = null;
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(JDBC_DRIVER);
