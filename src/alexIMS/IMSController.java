@@ -3,6 +3,9 @@ package alexIMS;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -20,8 +23,29 @@ public class IMSController implements ActionListener, TableModelListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		
+		String actionName = e.getActionCommand();
+		
+		switch (actionName){
+		case "Add":
+			IMSAddView addDialog = new IMSAddView(view.mainFrame);
+			
+			break;
+		case "Refresh":
+			break;
+		case "Delete":
+			break;
+		case "Print Stock Report":
+			model.printStockReport();
+			JOptionPane.showMessageDialog(view.mainFrame, "Report Generated!", "Success", 1);
+			break;
+		case "Enable Simulation":
+			break;
+		case "Exit":
+			System.exit(0);
+		default:
+			break;
+		}
 	}
 
 	@Override

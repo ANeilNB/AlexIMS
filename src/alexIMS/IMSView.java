@@ -83,6 +83,7 @@ public class IMSView {
 		JButton refreshButton = new JButton("Refresh");
 		JButton addButton = new JButton("Add");
 		JButton deleteButton = new JButton("Delete");
+		deleteButton.setEnabled(false);
 		
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(new JLabel());
@@ -106,7 +107,6 @@ public class IMSView {
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		
-		IMSAddView temp = new IMSAddView(mainFrame);
 	}
 
 	

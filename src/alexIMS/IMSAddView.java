@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,7 +16,7 @@ import javax.swing.JTextField;
 
 import com.sun.javafx.collections.MappingChange.Map;
 
-public class IMSAddView extends JDialog implements ActionListener {
+public class IMSAddView extends JDialog {
 
 	private JLabel idLabel;
 	private JFormattedTextField idField;
@@ -29,7 +30,7 @@ public class IMSAddView extends JDialog implements ActionListener {
 	private JFormattedTextField priceField;
 	private JButton addButton;
 	private JButton cancelButton;
-	private Map productMap;
+	private HashMap productMap;
 	
 	
 	public IMSAddView(Frame parent){
@@ -47,6 +48,7 @@ public class IMSAddView extends JDialog implements ActionListener {
 		
 		idField = new JFormattedTextField(NumberFormat.getNumberInstance());
 		idField.setColumns(6);
+		idField.setEnabled(false);
 		
 		nameField = new JTextField(35);
 		
@@ -75,16 +77,44 @@ public class IMSAddView extends JDialog implements ActionListener {
 		panel.add(priceField);
 		panel.add(cancelButton);
 		
-		this.setSize(200, 200);
+		cancelButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				dispose();
+			}
+		});
+		//cancelButton.addActionListener(this);
+		
+		this.setSize(450, 175);
 		this.setContentPane(panel);
 		this.setVisible(true);
 		
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+	void setAddActionListener(ActionListener al){
+		addButton.addActionListener(al);
 	}
+	
+	private boolean validateInput(){
+		int id = Integer.parseInt(idField.getText());
+		String name = nameField.getText();
+		int stock = Integer.parseInt(stockField.getText());
+		int critical = Integer.parseInt(criticalField.getText());
+		double price = Double.parseDouble(priceField.getText());
+		
+		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 3000))||
+				((critical >= 1)&&(critical < 250))||(price>0)){
+			productMap = new HashMap(5);
+			productMap.put("product_name", name);
+			productMap.put("current_stock", stock);
+			productMap.put("critical_stock", critical);
+			productMap.put("product_price", price);
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
 
 }
