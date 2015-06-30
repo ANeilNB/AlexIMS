@@ -30,6 +30,8 @@ public class IMSController implements ActionListener, TableModelListener {
 		int row = e.getFirstRow();
 		TableModel tableModel = (TableModel)e.getSource();
 		
+		tableModel.removeTableModelListener(this);
+		
 		int productId = (int) tableModel.getValueAt(row, 0);
 		
 		try{
@@ -46,6 +48,7 @@ public class IMSController implements ActionListener, TableModelListener {
 			view.tableModel.setValueAt(String.valueOf(model.productList.get(row).getCurrentStock()), row, e.getColumn());
 		}
 		finally{
+			tableModel.addTableModelListener(this);
 			System.out.println(model.productList.get(row).getCurrentStock());
 		}
 	}

@@ -150,10 +150,9 @@ public class Product {
 		return currentStock;
 	}
 	public void setCurrentStock(int newStock) {
-		/*
-		 * TEST CODE
-		 * While decrementing stock, prints messages if stock is low or depleted.
-		 */
+		
+		updateDatabase();
+		
 		this.currentStock = newStock;
 		if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
 		else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
@@ -180,9 +179,41 @@ public class Product {
 	}
 	
 	protected void updateDatabase(){
-		/*
-		 * Update database with current stock values.
-		 */
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try{
+			Class.forName(JDBC_DRIVER);
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?";
+			stmt = conn.prepareStatement(sqlQuery);
+			stmt.setInt(1, this.currentStock);
+			stmt.setInt(2, productId);
+			
+			int result = stmt.executeUpdate();
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(stmt != null)conn.close();
+			}
+			catch (SQLException e){}
+			try{
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			System.out.println("Closed Database!");
+		}
 	}
 	
 	/**

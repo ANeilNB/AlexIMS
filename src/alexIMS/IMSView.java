@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,11 +48,29 @@ public class IMSView {
 		topMenuBar.setOpaque(true);
 		topMenuBar.setPreferredSize(new Dimension(200, 20));
 		
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem printItem;
+		JMenuItem exitItem;
+		fileMenu.getAccessibleContext().setAccessibleDescription("Print and exit commands");
+		printItem = new JMenuItem("Print Stock Report");
+		fileMenu.add(printItem);
+		exitItem = new JMenuItem("Exit");
+		fileMenu.add(exitItem);
+		
+		JMenu simulationMenu = new JMenu("Simulation");
+		JCheckBoxMenuItem simulationSelection;
+		simulationSelection = new JCheckBoxMenuItem("Enable Simulation");
+		simulationMenu.add(simulationSelection);
+		
+		topMenuBar.add(fileMenu);
+		topMenuBar.add(simulationMenu);
+		
+		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout()); 
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(4,1));
+		buttonPanel.setLayout(new GridLayout(1,5));
 		
 		//IMSTableModel tableModel = new IMSTableModel();
 		
@@ -59,14 +81,34 @@ public class IMSView {
 		
 		JButton refreshButton = new JButton("Refresh");
 		JButton addButton = new JButton("Add");
+		JButton deleteButton = new JButton("Delete");
 		
+		buttonPanel.add(refreshButton);
+		buttonPanel.add(new JLabel());
+		buttonPanel.add(addButton);
+		buttonPanel.add(new JLabel());
+		buttonPanel.add(deleteButton);
 		
-		mainPanel.add(buttonPanel, BorderLayout.EAST);
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		printItem.addActionListener(controller);
+		exitItem.addActionListener(controller);
+		simulationSelection.addActionListener(controller);
+		
+		refreshButton.addActionListener(controller);
+		addButton.addActionListener(controller);
+		deleteButton.addActionListener(controller);
 		
 		mainFrame.setJMenuBar(topMenuBar);
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.pack();
+		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
+	}
+	
+	void initializeAddUI(){
+		
+		JFrame addFrame = new JFrame("Add New Product");
 	}
 	
 	void initializeTable(){
@@ -85,6 +127,14 @@ public class IMSView {
 		productTable.getTableHeader().setReorderingAllowed(false);
 		productTable.getTableHeader().setResizingAllowed(false);
 		
+		productTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+		productTable.getColumnModel().getColumn(0).setMinWidth(20);
+		productTable.getColumnModel().getColumn(1).setPreferredWidth(175);
+		productTable.getColumnModel().getColumn(2).setPreferredWidth(20);
+		productTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+		productTable.getColumnModel().getColumn(4).setPreferredWidth(20);
+		
+				
 		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
 		
 		System.out.println("Table call");
