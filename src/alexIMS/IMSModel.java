@@ -73,6 +73,11 @@ public class IMSModel {
 		productList.add(newProduct);
 	}
 	
+	void addProduct(String productName, int currentStock, int criticalStock, double currentPrice){
+		Product newProduct = new Product(productName, currentStock, criticalStock, currentPrice);
+		addProduct(newProduct);
+	}
+	
 	void enableDecrementTimer(){
 		simulationTimer = new Timer();
 		
@@ -91,5 +96,9 @@ public class IMSModel {
 				System.out.println(productList.get(i).getProductName() + " decremented. Stock now at: " + productList.get(i).getCurrentStock());
 			}
 		}, 10*1000, 10*1000);
+	}
+	
+	void disableDecrementTimer(){
+		simulationTimer = null;
 	}
 }

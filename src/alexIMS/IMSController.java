@@ -2,6 +2,7 @@ package alexIMS;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -48,6 +49,13 @@ public class IMSController implements ActionListener, TableModelListener {
 			if(addDialog != null){
 				
 				if(addDialog.validateInput()){
+					HashMap newInfo = addDialog.getProductInfo();
+					
+					String newName = (String) newInfo.get("product_name");
+					int newStock = (int) newInfo.get("current_stock");
+					int newCritical = (int) newInfo.get("critical_stock");
+					double newPrice = (double) newInfo.get("product_price");
+					
 					addDialog.dispose();
 				}
 				else{

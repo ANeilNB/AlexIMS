@@ -12,7 +12,9 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.text.MaskFormatter;
 
 import com.sun.javafx.collections.MappingChange.Map;
@@ -20,15 +22,18 @@ import com.sun.javafx.collections.MappingChange.Map;
 public class IMSAddView extends JDialog {
 
 	private JLabel idLabel;
-	private JFormattedTextField idField;
+	private JTextField idField;
 	private JLabel nameLabel;
 	private JTextField nameField;
 	private JLabel stockLabel;
-	private JFormattedTextField stockField;
+	private SpinnerNumberModel stockInputModel;
+	private JSpinner stockField;
 	private JLabel criticalLabel;
-	private JFormattedTextField criticalField;
+	private SpinnerNumberModel criticalInputModel;
+	private JSpinner criticalField;
 	private JLabel priceLabel;
-	private JFormattedTextField priceField;
+	private SpinnerNumberModel priceInputModel;
+	private JSpinner priceField;
 	private JButton addButton;
 	private JButton cancelButton;
 	private HashMap productMap;
@@ -56,24 +61,21 @@ public class IMSAddView extends JDialog {
 		MaskFormatter priceFormat;
 		
 		try{
-			numberFormat = new MaskFormatter("#####");
-			priceFormat = new MaskFormatter("####.##");
 			
-			
-			idField = new JFormattedTextField(numberFormat);
+			idField = new JTextField();
 			idField.setColumns(5);
 			idField.setEnabled(false);
 			
 			nameField = new JTextField(35);
 			
-			stockField = new JFormattedTextField(numberFormat);
-			stockField.setColumns(5);
+			stockInputModel = new SpinnerNumberModel(1,0,9999,1);
+			stockField = new JSpinner(stockInputModel);
 			
-			criticalField = new JFormattedTextField(numberFormat);
-			criticalField.setColumns(5);
+			criticalInputModel = new SpinnerNumberModel(1,0,9999,1);
+			criticalField = new JSpinner(criticalInputModel);
 			
-			priceField = new JFormattedTextField(priceFormat);
-			priceField.setColumns(8);
+			priceInputModel = new SpinnerNumberModel(1.0,0,100000.00,1);
+			priceField = new JSpinner(priceInputModel);
 		}
 		catch(Exception e){
 			System.out.println("RIP MaskFormatter!");
@@ -126,15 +128,18 @@ public class IMSAddView extends JDialog {
 		double price;
 		
 		try{
-			id = Integer.parseInt(idField.getText());
+			//id = Integer.parseInt(idField.getText());
 			name = nameField.getText();
-			stock = Integer.parseInt(stockField.getText());
-			critical = Integer.parseInt(criticalField.getText());
-			price = Double.parseDouble(priceField.getText());
+			stock = stockInputModel.getNumber().intValue();
+			critical = criticalInputModel.getNumber().intValue();
+			price = priceInputModel.getNumber().doubleValue();
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return false;
 		}
+		
+		//System.out.println(name + " " + stock + " " + critical + " " + price);
 		
 		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 3000))||
 				((critical >= 1)&&(critical < 250))||(price>0)){
@@ -146,8 +151,16 @@ public class IMSAddView extends JDialog {
 			return true;
 		}
 		else{
+			System.err.println("Rekt");
 			return false;
 		}
+	}
+	
+	HashMap getProductInfo(){
+		if(validateInput()){
+			return productMap;
+		}
+		return null;
 	}
 }
 

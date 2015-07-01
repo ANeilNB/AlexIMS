@@ -88,7 +88,7 @@ public class Product {
 	 * @param currentPrice Price of the product.
 	 * @param criticalStock Amount of stock that is considered critically low.
 	 */
-	public Product(String productName, int currentStock, double currentPrice, int criticalStock){
+	public Product(String productName, int currentStock, int criticalStock, double currentPrice){
 		this.productName = productName;
 		this.currentStock = currentStock;
 		this.criticalStock = criticalStock;
@@ -142,21 +142,15 @@ public class Product {
 		}
 	}
 	
-	public Product(int productId, String productName, int currentStock, double currentPrice, int criticalStock){
-		this.productId = productId;
-		this.productName = productName;
-		this.currentStock = currentStock;
-		this.criticalStock = criticalStock;
-		this.currentPrice = currentPrice;
-		/*
-		 * Create new row in Products table in the database for the product.
-		 */
-	}
-	
 	public int getCurrentStock() {
 		return currentStock;
 	}
 	public void setCurrentStock(int newStock) {
+		
+		if(newStock > currentStock){
+			System.out.println("Stock of " + productName + " (ID: " + productId + ") increased to " +
+									newStock + ".");
+		}
 		
 		this.currentStock = newStock;
 		
@@ -182,11 +176,8 @@ public class Product {
 		return currentPrice;
 	}
 	
-	protected void updateStock(){
 
-	}
-	
-	protected void updateDatabase(){
+	private void updateDatabase(){
 		
 		conn = null;
 		PreparedStatement stmt = null;
