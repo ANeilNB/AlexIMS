@@ -27,7 +27,7 @@ public class Product {
 	Connection conn;
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost/nb_ims";
+	static final String DB_URL = "jdbc:mysql://10.50.25.28:3306/nb_ims";
 	static final String USER = "imanager";
 	static final String PASS = "nbgardens";
 	

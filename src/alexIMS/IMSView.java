@@ -76,7 +76,6 @@ public class IMSView {
 		//IMSTableModel tableModel = new IMSTableModel();
 		
 		initializeTable();
-		tableModel.addTableModelListener(controller);
 
 		
 		
@@ -111,6 +110,7 @@ public class IMSView {
 
 	
 	void initializeTable(){
+
 		tableModel = null;
 		tableModel = new DefaultTableModel(COLUMN_NAMES, 0);
 		for(Product p : model.productList){
@@ -134,10 +134,10 @@ public class IMSView {
 		productTable.getColumnModel().getColumn(3).setPreferredWidth(20);
 		productTable.getColumnModel().getColumn(4).setPreferredWidth(20);
 		
-				
-		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
+		mainPanel.add(new JScrollPane(this.productTable), BorderLayout.CENTER);
 		
-		productTable.updateUI();
+
+		tableModel.addTableModelListener(controller);
 		
 		System.out.println("Table call");
 	}	
