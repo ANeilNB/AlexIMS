@@ -145,19 +145,23 @@ public class Product {
 	public int getCurrentStock() {
 		return currentStock;
 	}
-	public void setCurrentStock(int newStock) {
+	public boolean setCurrentStock(int newStock) {
+		
+		boolean increasedFlag = false;
 		
 		if(newStock > currentStock){
-			System.out.println("Stock of " + productName + " (ID: " + productId + ") increased to " +
-									newStock + ".");
+			//System.out.println("Stock of " + productName + " (ID: " + productId + ") increased to " +
+			//						newStock + ".");
+			increasedFlag = true;
 		}
 		
 		this.currentStock = newStock;
 		
 		updateDatabase();
-				
-		if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
-		else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
+		
+		return increasedFlag;
+		//if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
+		//else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
 	}
 	public int getProductId() {
 		return this.productId;
@@ -183,7 +187,9 @@ public class Product {
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(JDBC_DRIVER);
-			System.out.println("Connecting to database...");			
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
 			
 			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?;";
 			stmt = conn.prepareStatement(sqlQuery);
@@ -225,5 +231,45 @@ public class Product {
 		if(currentStock <= criticalStock) return true;
 		return false;
 	}
+	
+	public void deleteProduct(){
+		conn = null;
+		PreparedStatement stmt = null;
+		try{
+			Class.forName(JDBC_DRIVER);
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+			
+			String sqlQuery = "DELETE FROM products WHERE product_id = ?;";
+			stmt = conn.prepareStatement(sqlQuery);
+			stmt.setInt(1, this.productId);
+			
+			int result = stmt.executeUpdate();
+			
+			System.out.println(result);
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(stmt != null)conn.close();
+			}
+			catch (SQLException e){	}
+			try{
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			System.out.println("Closed Database!");
+		}
+	}
+
 	
 }

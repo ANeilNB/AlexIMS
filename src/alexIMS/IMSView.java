@@ -83,7 +83,7 @@ public class IMSView {
 		JButton refreshButton = new JButton("Refresh");
 		JButton addButton = new JButton("Add Product");
 		JButton deleteButton = new JButton("Delete");
-		deleteButton.setEnabled(false);
+		//deleteButton.setEnabled(false);
 		
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(new JLabel());
@@ -137,6 +137,5 @@ public class IMSView {
 		mainPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
 		
 		System.out.println("Table call");
-	}
-	
+	}	
 }

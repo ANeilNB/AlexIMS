@@ -42,8 +42,21 @@ public class IMSController implements ActionListener, TableModelListener {
 			
 			break;
 		case "Refresh":
+			view.initializeTable();
 			break;
 		case "Delete":
+			int row = view.productTable.getSelectedRow();
+			
+			System.out.println(row);
+			
+			if(row == -1){
+				JOptionPane.showMessageDialog(view.mainFrame, "No row selected!", "Error",0);
+			}else{
+				int deleteId = (int) view.productTable.getValueAt((row), 0);
+				model.removeProduct(deleteId);
+			}
+			
+			view.initializeTable();
 			break;
 		case "Add":
 			if(addDialog != null){
@@ -56,7 +69,11 @@ public class IMSController implements ActionListener, TableModelListener {
 					int newCritical = (int) newInfo.get("critical_stock");
 					double newPrice = (double) newInfo.get("product_price");
 					
+					model.addProduct(newName, newStock, newCritical, newPrice);
+					
 					addDialog.dispose();
+					
+					view.initializeTable();
 				}
 				else{
 					JOptionPane.showMessageDialog(view.mainFrame, "Invalid input", "Error", 0);
@@ -97,7 +114,8 @@ public class IMSController implements ActionListener, TableModelListener {
 			else{
 				for(Product p : model.productList){
 					if(productId == p.getProductId()){
-						p.setCurrentStock(newStock);
+						if(p.setCurrentStock(newStock)) JOptionPane.showMessageDialog(view.mainFrame, "Stock of " + p.getProductName() + " (ID: " + p.getProductId() + ") increased.");
+						if(p.checkStock()) JOptionPane.showMessageDialog(view.mainFrame, "Stock of " + p.getProductName() + " (ID: " + p.getProductId() + ") critically low.");
 					}
 				}
 			}

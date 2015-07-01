@@ -78,6 +78,16 @@ public class IMSModel {
 		addProduct(newProduct);
 	}
 	
+	void removeProduct(int removeId){
+		for(Product p: productList){
+			if(p.getProductId() == removeId){
+				p.deleteProduct();
+				productList.remove(p);
+				break;
+			}
+		}
+	}
+	
 	void enableDecrementTimer(){
 		simulationTimer = new Timer();
 		

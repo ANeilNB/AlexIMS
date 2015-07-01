@@ -15,9 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.text.MaskFormatter;
-
-import com.sun.javafx.collections.MappingChange.Map;
 
 public class IMSAddView extends JDialog {
 
@@ -56,10 +53,7 @@ public class IMSAddView extends JDialog {
 		stockLabel = new JLabel("Current Stock");
 		criticalLabel = new JLabel("Critical Stock");
 		priceLabel = new JLabel("Product Price");
-		
-		MaskFormatter numberFormat;
-		MaskFormatter priceFormat;
-		
+				
 		try{
 			
 			idField = new JTextField();
