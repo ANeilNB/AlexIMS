@@ -42,7 +42,7 @@ public class IMSController implements ActionListener, TableModelListener {
 			
 			break;
 		case "Refresh":
-			view.initializeTable();
+			view.refreshTable();
 			break;
 		case "Delete":
 			int row = view.productTable.getSelectedRow();
@@ -56,7 +56,7 @@ public class IMSController implements ActionListener, TableModelListener {
 				model.removeProduct(deleteId);
 			}
 			
-			view.initializeTable();
+			view.refreshTable();
 			break;
 		case "Add":
 			if(addDialog != null){
@@ -73,7 +73,7 @@ public class IMSController implements ActionListener, TableModelListener {
 					
 					addDialog.dispose();
 					
-					view.initializeTable();
+					view.refreshTable();
 				}
 				else{
 					JOptionPane.showMessageDialog(view.mainFrame, "Invalid input", "Error", 0);

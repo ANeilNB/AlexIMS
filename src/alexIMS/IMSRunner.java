@@ -8,10 +8,10 @@ import java.sql.SQLException;
 
 public class IMSRunner {
 	
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://10.50.25.28:3306/nb_ims";
-	static final String USER = "imanager";
-	static final String PASS = "nbgardens";
+	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	public static final String DB_URL = "jdbc:mysql://10.50.25.28:3306/nb_ims";
+	public static final String USER = "imanager";
+	public static final String PASS = "nbgardens";
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

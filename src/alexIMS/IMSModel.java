@@ -76,6 +76,8 @@ public class IMSModel {
 	void addProduct(String productName, int currentStock, int criticalStock, double currentPrice){
 		Product newProduct = new Product(productName, currentStock, criticalStock, currentPrice);
 		addProduct(newProduct);
+		
+		System.out.println("New product added");
 	}
 	
 	void removeProduct(int removeId){
@@ -83,7 +85,8 @@ public class IMSModel {
 			if(p.getProductId() == removeId){
 				p.deleteProduct();
 				productList.remove(p);
-				break;
+				System.out.println("Product removed");
+				return;
 			}
 		}
 	}

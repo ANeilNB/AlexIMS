@@ -135,8 +135,8 @@ public class IMSAddView extends JDialog {
 		
 		//System.out.println(name + " " + stock + " " + critical + " " + price);
 		
-		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 3000))||
-				((critical >= 1)&&(critical < 250))||(price>0)){
+		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 9999))||
+				((critical >= 1)&&(critical < 2000))||(price>0)){
 			productMap = new HashMap(5);
 			productMap.put("product_name", name);
 			productMap.put("current_stock", stock);

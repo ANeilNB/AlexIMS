@@ -26,11 +26,6 @@ public class Product {
 	
 	Connection conn;
 	
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://10.50.25.28:3306/nb_ims";
-	static final String USER = "imanager";
-	static final String PASS = "nbgardens";
-	
 	public Product(int productId){
 		this.productId = productId;
 		/*
@@ -42,9 +37,9 @@ public class Product {
 		conn = null;
 		PreparedStatement stmt = null;
 		try{
-			Class.forName(JDBC_DRIVER);
+			Class.forName(IMSRunner.JDBC_DRIVER);
 			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
 			String sqlQuery = "SELECT product_name, current_stock, critical_stock, product_price FROM products WHERE product_id = ?;";
@@ -98,9 +93,9 @@ public class Product {
 		PreparedStatement stmt = null;
 		ResultSet rs;
 		try{
-			Class.forName(JDBC_DRIVER);
+			Class.forName(IMSRunner.JDBC_DRIVER);
 			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
 			String sqlQuery = "INSERT INTO products (product_name, current_stock, critical_stock, product_price) VALUES (?,?,?,?);";
@@ -186,9 +181,9 @@ public class Product {
 		conn = null;
 		PreparedStatement stmt = null;
 		try{
-			Class.forName(JDBC_DRIVER);
+			Class.forName(IMSRunner.JDBC_DRIVER);
 			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 
 			
 			String sqlQuery = "UPDATE products SET current_stock = ? WHERE product_id = ?;";
@@ -236,9 +231,9 @@ public class Product {
 		conn = null;
 		PreparedStatement stmt = null;
 		try{
-			Class.forName(JDBC_DRIVER);
+			Class.forName(IMSRunner.JDBC_DRIVER);
 			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 
 			
 			String sqlQuery = "DELETE FROM products WHERE product_id = ?;";
