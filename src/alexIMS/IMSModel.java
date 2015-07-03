@@ -17,6 +17,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
 /**
  * 
  * @author Alexander Neil
@@ -32,7 +34,7 @@ public class IMSModel {
 	private final String reportFormat = "%-6s\t%-45s\t%-5s" + System.getProperty("line.separator");
 	
 	/**
-	 * Constructs an IMSModel, intializing and filling the product list.
+	 * Constructs an IMSModel, initialising and filling the product list.
 	 */
 	IMSModel(){
 		productList = new ArrayList<Product>();
@@ -42,7 +44,7 @@ public class IMSModel {
 
 	/**
 	 * Connects to the nb_ims database and collects an up-to-date list of products, placing them in productList.
-	 * Uses @link {@link #addProduct(Product)}, passing Product's constructor a single integer to identify the product.
+	 * Uses {@link #addProduct(Product)}, passing Product's constructor a single integer to identify the product.
 	 */
 	void refreshProductList(){
 		Connection con;
@@ -82,15 +84,24 @@ public class IMSModel {
 			catch (SQLException e){
 				e.printStackTrace();
 			}
+			//Redundant on a successful database connection, as individual product connections will close the database.
 			System.out.println("Closed Database!");
 		}	
 	}
 	
 	
+	/**
+	 * Prints a simple stock report containing the date and the current stock levels of all items available.
+	 * Output is written to output/stockreport_yyyy-MM-dd_HH-mm.txt
+	 * Uses the reportFormat string to maintain alignment in the report for all legal product name lengths.
+	 */
 	protected void printStockReport(){		
-		String date = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance()
+		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance()
+				.getTime());
+		String filenameDate = new SimpleDateFormat("yyyy-MM-dd_HH_mm").format(Calendar.getInstance()
 				.getTime());
 		
+		//Constructs report to be written as a string
 		String reportString = "Stock Report - " + date + System.getProperty("line.separator")
 				+ "-------------------------" + System.getProperty("line.separator");
 		reportString = reportString + String.format(reportFormat, "Id", "Product Name", "Stock");
@@ -99,10 +110,9 @@ public class IMSModel {
 			reportString = reportString + String.format(reportFormat, p.getProductId(), p.getProductName(), p.getCurrentStock());
 		}
 		
-		//System.out.println(reportString);
-		
+		//Attempts to write the built report string to the file.
 		try{
-			File file = new File("output/stockreport_" + date + ".txt");
+			File file = new File("output/stockreport_" + filenameDate + ".txt");
 		
 			if(!file.exists()) file.createNewFile();
 			
@@ -110,25 +120,42 @@ public class IMSModel {
 			BufferedWriter writer = new BufferedWriter(fw);
 			writer.write(reportString);
 			writer.close();
-			System.out.println("File Written!");
+			//System.out.println("File Written!");
 		}
 		catch (IOException e){
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Adds a new Product to {@link #productList}
+	 * @param newProduct An instance of the Product class to be added to the product list.
+	 */
 	protected void addProduct(Product newProduct){
 		productList.add(newProduct);
 	}
 	
+	/**
+	 * Adds a new product to {@link #productList}
+	 * The product's ID is gotten automatically as part of creating the product object.
+	 * @param productName Name of product to add to the list
+	 * @param currentStock Current stock of the product
+	 * @param criticalStock What is considered critical stock level for the product
+	 * @param currentPrice The product's price
+	 */
 	void addProduct(String productName, int currentStock, int criticalStock, double currentPrice){
 		Product newProduct = new Product(productName, currentStock, criticalStock, currentPrice);
 		addProduct(newProduct);
 		
-		System.out.println("New product added");
+		//System.out.println("New product added");
 	}
 	
+	/**
+	 * Removes a product with the given ID from the array and database.
+	 * @param removeId ID of the product to remove.
+	 */
 	void removeProduct(int removeId){
+		//Loops through productList to find a product with the ID.
 		for(Product p: productList){
 			if(p.getProductId() == removeId){
 				p.deleteProduct();
@@ -139,13 +166,18 @@ public class IMSModel {
 		}
 	}
 	
+	/**
+	 * Begins the simulation and defines it's task and interval.
+	 * The simulation by default runs every 10 seconds and decrements a random Product's stock by up to 10.
+	 * This is a simple and crude simulation and does not account for current stock levels.
+	 */
 	void enableDecrementTimer(){
 		simulationTimer = new Timer();
 		
 		simulationTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				System.out.println("Timer is go!");
+				//System.out.println("Timer is go!");
 				Random randomGenerator = new Random();
 				
 				/*
@@ -156,9 +188,12 @@ public class IMSModel {
 				productList.get(i =randomGenerator.nextInt(productList.size())).setCurrentStock(productList.get(i).getCurrentStock() - randomGenerator.nextInt(10));
 				System.out.println(productList.get(i).getProductName() + " decremented. Stock now at: " + productList.get(i).getCurrentStock());
 			}
-		}, 10*1000, 10*1000);
+		}, 10*1000, 10*1000); //starts after 10 seconds then runs every 10 seconds afterwards.
 	}
 	
+	/**
+	 * Disables the previous simulation by nullifying the timer variable to have the object garbage collected.
+	 */
 	void disableDecrementTimer(){
 		simulationTimer = null;
 	}
