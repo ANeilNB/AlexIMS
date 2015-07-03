@@ -49,6 +49,7 @@ public class IMSView {
 		this.controller = controller;
 	}
 	
+	/*
 	void createSplashScreen(){
 		
 		splash = new JFrame();
@@ -70,6 +71,7 @@ public class IMSView {
 		
 		splash.setVisible(true);
 	}
+	*/
 	
 	
 	void initUI(){

@@ -1,5 +1,7 @@
 package alexIMS;
 
+import java.awt.Graphics2D;
+import java.awt.SplashScreen;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +10,12 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
+
+/**
+ * 
+ * @author aneil
+ * @version 1.0
+ */
 public class IMSRunner {
 	
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -15,65 +23,21 @@ public class IMSRunner {
 	public static final String USER = "imanager";
 	public static final String PASS = "nbgardens";
 
+	/**
+	 * Runs the NBGardens IMS system.
+	 * Creates the model, view and controller classes and informs them of each other, then
+	 * starts the UI.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		IMSModel model = new IMSModel();
 		IMSView view = new IMSView(model);
 		IMSController controller = new IMSController(model, view);
 	
-		view.createSplashScreen();
-		//populating model for testing purposes
-		/*
-		model.addProduct(new Product(1,"Gnom", 3, 2.50, 1));
-		model.addProduct(new Product(2,"Diamond Sun Lounger", 2, 30000.0, 1));
-		model.addProduct(new Product(3,"Gareth Gnome", 7, 25.99, 3));
-		model.addProduct(new Product(4,"James", 20, 15.50, 2));
-		model.addProduct(new Product(5,"Alien Gnome", 22, 19.99, 5));
-		model.addProduct(new Product(6,"King Gnome", 8, 99.99, 2));
-		model.addProduct(new Product(7,"Fat Gnome", 11, 8.99, 3));
-		model.addProduct(new Product(8,"Gnomebuilder Academy", 12, 65.00, 4));
-		model.addProduct(new Product(9,"Tiny Fountain", 99, 2.50, 15));
-		model.addProduct(new Product(10,"Gnome Gnome",75, 10.00,12));
-		*/
-		Connection con;
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		try{
-			Class.forName(JDBC_DRIVER);
-			System.out.println("Connecting to database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		//view.createSplashScreen();
+
 			
-			
-			String sqlQuery = "SELECT product_id FROM products;";
-			stmt = conn.prepareStatement(sqlQuery);
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while(rs.next()){			
-				model.addProduct(new Product(rs.getInt("product_id")));
-			}
-		}
-		catch(SQLException e){
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		finally{
-			try{
-				if(stmt != null)conn.close();
-			}
-			catch (SQLException e){}
-			try{
-				if(conn != null)
-					conn.close();
-			}
-			catch (SQLException e){
-				e.printStackTrace();
-			}
-			System.out.println("Closed Database!");
-		}		
 		
 		
 		view.addController(controller);
@@ -84,5 +48,5 @@ public class IMSRunner {
 		//model.printStock();
 		
 	}
-
+	
 }

@@ -4,6 +4,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,19 +31,62 @@ public class IMSModel {
 	//Simple string for use with String.format to create table-like alignment for stock report file
 	private final String reportFormat = "%-6s\t%-45s\t%-5s" + System.getProperty("line.separator");
 	
+	/**
+	 * Constructs an IMSModel, intializing and filling the product list.
+	 */
 	IMSModel(){
 		productList = new ArrayList<Product>();
+		refreshProductList();
 	}
 	
-	//Was for task1 debug, testing 
-	/*
-	protected void printStock(){
-		System.out.println("Id\tName \t\t\tStock");
-		for(Product p : productList){
-			System.out.println(p.getProductId() + "\t" + p.getProductName() + "\t\t" + p.getCurrentStock());
+
+	/**
+	 * Connects to the nb_ims database and collects an up-to-date list of products, placing them in productList.
+	 * Uses @link {@link #addProduct(Product)}, passing Product's constructor a single integer to identify the product.
+	 */
+	void refreshProductList(){
+		Connection con;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try{
+			Class.forName(IMSRunner.JDBC_DRIVER);
+			System.out.println("Connecting to database...");
+			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
+			
+			
+			String sqlQuery = "SELECT product_id FROM products;";
+			stmt = conn.prepareStatement(sqlQuery);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()){			
+				addProduct(new Product(rs.getInt("product_id")));
+			}
 		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(stmt != null)conn.close();
+			}
+			catch (SQLException e){}
+			try{
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			System.out.println("Closed Database!");
+		}	
 	}
-	*/
+	
+	
 	protected void printStockReport(){		
 		String date = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance()
 				.getTime());
