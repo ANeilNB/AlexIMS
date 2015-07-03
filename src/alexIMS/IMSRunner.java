@@ -6,18 +6,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+
 public class IMSRunner {
 	
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	public static final String DB_URL = "jdbc:mysql://10.50.25.28:3306/nb_ims";
+	public static final String DB_URL = "jdbc:mysql://10.50.15.5:3306/nb_ims";
 	public static final String USER = "imanager";
 	public static final String PASS = "nbgardens";
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		IMSModel model = new IMSModel();
-		//IMSView view = new IMSView(model);
 		
+		IMSModel model = new IMSModel();
+		IMSView view = new IMSView(model);
+		IMSController controller = new IMSController(model, view);
+	
+		view.createSplashScreen();
 		//populating model for testing purposes
 		/*
 		model.addProduct(new Product(1,"Gnom", 3, 2.50, 1));
@@ -71,8 +75,7 @@ public class IMSRunner {
 			System.out.println("Closed Database!");
 		}		
 		
-		IMSView view = new IMSView(model);
-		IMSController controller = new IMSController(model, view);
+		
 		view.addController(controller);
 		
 		view.initUI();

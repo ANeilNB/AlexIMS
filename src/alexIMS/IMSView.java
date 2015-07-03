@@ -2,9 +2,17 @@ package alexIMS;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
@@ -22,6 +30,8 @@ public class IMSView {
 
 	IMSModel model;
 	IMSController controller;
+	
+	JFrame splash;
 
 	JFrame mainFrame;
 	JPanel mainPanel;
@@ -39,13 +49,48 @@ public class IMSView {
 		this.controller = controller;
 	}
 	
+	void createSplashScreen(){
+		
+		splash = new JFrame();
+		splash.setUndecorated(true);
+				
+		JPanel splashPane = new JPanel(new BorderLayout());
+		
+		splashPane.add(new ImagePanel("res/nbgardens.png"), BorderLayout.CENTER);
+		splashPane.add(new JLabel("Loading..."), BorderLayout.SOUTH);
+		
+		splash.setSize(500, 600);
+		splash.setResizable(false);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		int locationX = (screenSize.width - splash.getWidth()) / 2;
+		int locationY = (screenSize.height = splash.getHeight()) / 2;
+		splash.setLocation(locationX,locationY);
+		
+		splash.setVisible(true);
+	}
+	
 	
 	void initUI(){
-		
+		/*
+		try{
+			splash.dispose();
+		}
+		catch(NullPointerException npe){
+		}
+		*/
+			
 		mainFrame = new JFrame();
 		mainFrame.setTitle("NB Gardens IMS");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		try{
+			mainFrame.setIconImage(ImageIO.read(new File("res/nbgicon.png")));
+		}
+		catch(IOException ioe){
+			System.out.println("Icon Error!");
+		}
 		JMenuBar topMenuBar = new JMenuBar();
 		topMenuBar.setOpaque(true);
 		topMenuBar.setPreferredSize(new Dimension(200, 20));
@@ -93,6 +138,7 @@ public class IMSView {
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
+		
 		printItem.addActionListener(controller);
 		exitItem.addActionListener(controller);
 		simulationSelection.addActionListener(controller);
@@ -105,6 +151,13 @@ public class IMSView {
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.pack();
 		mainFrame.setResizable(false);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		int locationX = (screenSize.width - mainFrame.getWidth()) / 2;
+		int locationY = (screenSize.height = mainFrame.getHeight()) / 2;
+		mainFrame.setLocation(locationX,locationY);
+		
 		mainFrame.setVisible(true);
 		
 	}
@@ -179,5 +232,25 @@ public class IMSView {
 		
 		System.out.println("Table call");
 
+	}
+	
+	public class ImagePanel extends JPanel{
+		
+		private BufferedImage image;
+		
+		public ImagePanel(String fileName){
+			try{
+				image = ImageIO.read(new File(fileName));
+			}
+			catch(IOException ioe){
+				System.err.println("Bad filename!");
+			}
+		}
+		
+		@Override
+		protected void paintComponent(Graphics g){
+			super.paintComponent(g);
+			g.drawImage(image,0,0,null);
+		}
 	}
 }

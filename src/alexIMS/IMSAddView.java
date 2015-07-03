@@ -4,9 +4,12 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
@@ -47,6 +50,13 @@ public class IMSAddView extends JDialog {
 		System.out.println("Dialog");
 		
 		JPanel panel = new JPanel(new GridLayout(6,2));
+		
+		try{
+			this.setIconImage(ImageIO.read(new File("res/nbgicon.png")));
+		}
+		catch(IOException ioe){
+			System.out.println("Icon Error!");
+		}
 		
 		idLabel = new JLabel("Product Id (optional)");
 		nameLabel = new JLabel("Product Name");
