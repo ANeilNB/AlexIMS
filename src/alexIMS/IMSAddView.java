@@ -1,7 +1,9 @@
 package alexIMS;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -116,6 +118,13 @@ public class IMSAddView extends JDialog {
 		this.setSize(450, 175);
 		this.setResizable(false);
 		this.setContentPane(panel);
+		
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		int locationX = (screenSize.width - this.getWidth()) / 2;
+		int locationY = (screenSize.height - this.getHeight()) / 2;
+		this.setLocation(locationX,locationY);
+		
 		this.setVisible(true);
 	}
 	
