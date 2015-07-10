@@ -6,6 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * The Product class acts as a container for all the data referring to a product in
@@ -23,6 +29,8 @@ public class Product {
 	protected int currentStock;
 	protected double currentPrice;
 	protected int criticalStock;
+	protected int requiredStock;
+	protected Date dateUpdated;
 	
 	Connection conn;
 	
@@ -54,6 +62,9 @@ public class Product {
 			this.currentStock = rs.getInt("current_stock");
 			this.criticalStock = rs.getInt("critical_stock");
 			this.currentPrice = rs.getDouble("product_price");
+			//this.requiredStock = rs.getInt("required_stock");
+			//this.dateUpdated = rs.getDate("last_updated");
+			//Removed until new database implementation!
 		}
 		catch(SQLException e){
 			e.printStackTrace();
@@ -140,6 +151,7 @@ public class Product {
 	public int getCurrentStock() {
 		return currentStock;
 	}
+	
 	public boolean setCurrentStock(int newStock) {
 		
 		boolean increasedFlag = false;
@@ -152,31 +164,82 @@ public class Product {
 		
 		this.currentStock = newStock;
 		
-		updateDatabase();
+		updateStock();
 		
 		return increasedFlag;
 		//if(currentStock < 0) System.err.println("Stock of " + productName + " is all gone!");
 		//else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
 	}
+	
 	public int getProductId() {
 		return this.productId;
 	}
+	
 	public String getProductName() {
 		return productName;
 	}
+	
 	public double getCurrentPrice() {
 		return currentPrice;
 	}
+	
 	public int getCriticalStock() {
 		return criticalStock;
+	}
+	
+	public void setCriticalStock(int criticalStock){
+		if(criticalStock > requiredStock){
+			//Error
+		}
+		else{
+			this.criticalStock = criticalStock;
+		}
 	}
 	
 	public double getPrice() {
 		return currentPrice;
 	}
 	
+	public int getRequiredStock(){
+		return requiredStock;
+	}
+	
+	public String getDateUpdated(){
+		
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String updated = df.format(dateUpdated);
+		return updated;
+	}
+	
 
-	private void updateDatabase(){
+	public void setDateUpdated(){
+		dateUpdated = Calendar.getInstance().getTime();
+	}
+	
+	public void setDateUpdated(String newDate){
+		
+		if(Pattern.matches("^\\d{4}-[0-1]\\d-[0-3]\\d$", "newDate")){
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			try{
+				dateUpdated = df.parse(newDate);
+			}
+			catch(ParseException pe){
+				pe.printStackTrace();
+			}
+		}
+	}
+	
+	public void setRequiredStock(int requiredStock){
+		if(criticalStock > requiredStock){
+			//Error
+		}
+		else{
+			this.requiredStock = requiredStock;
+		}
+	}
+	
+
+	private void updateStock(){
 		
 		conn = null;
 		PreparedStatement stmt = null;
