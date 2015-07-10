@@ -17,8 +17,6 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 /**
  * 
  * @author Alexander Neil
