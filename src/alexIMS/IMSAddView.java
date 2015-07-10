@@ -113,7 +113,6 @@ public class IMSAddView extends JDialog {
 				dispose();
 			}
 		});
-		//cancelButton.addActionListener(this);
 		
 		this.setSize(450, 175);
 		this.setResizable(false);
@@ -141,7 +140,6 @@ public class IMSAddView extends JDialog {
 		double price;
 		
 		try{
-			//id = Integer.parseInt(idField.getText());
 			name = nameField.getText();
 			stock = stockInputModel.getNumber().intValue();
 			critical = criticalInputModel.getNumber().intValue();
@@ -152,7 +150,6 @@ public class IMSAddView extends JDialog {
 			return false;
 		}
 		
-		//System.out.println(name + " " + stock + " " + critical + " " + price);
 		
 		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 9999))||
 				((critical >= 1)&&(critical < 2000))||(price>0)){

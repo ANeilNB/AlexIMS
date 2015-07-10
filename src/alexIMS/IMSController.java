@@ -54,9 +54,10 @@ public class IMSController implements ActionListener, TableModelListener {
 			}else{
 				int deleteId = (int) view.productTable.getValueAt((row), 0);
 				model.removeProduct(deleteId);
+				view.refreshTable();
 			}
 			
-			view.refreshTable();
+			
 			break;
 		case "Add":
 			if(addDialog != null){
