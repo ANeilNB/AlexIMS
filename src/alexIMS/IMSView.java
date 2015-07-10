@@ -2,20 +2,15 @@ package alexIMS;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -49,7 +44,7 @@ public class IMSView {
 		this.controller = controller;
 	}
 	
-	/*
+
 	void createSplashScreen(){
 		
 		splash = new JFrame();
@@ -57,8 +52,13 @@ public class IMSView {
 				
 		JPanel splashPane = new JPanel(new BorderLayout());
 		
+		splash.setContentPane(splashPane);
+		
+		JLabel loadingLabel = new JLabel("Loading...");
+		loadingLabel.setFont(new Font("Serif", Font.PLAIN, 28));;
+		
 		splashPane.add(new ImagePanel("res/nbgardens.png"), BorderLayout.CENTER);
-		splashPane.add(new JLabel("Loading..."), BorderLayout.SOUTH);
+		splashPane.add(loadingLabel, BorderLayout.SOUTH);
 		
 		splash.setSize(500, 600);
 		splash.setResizable(false);
@@ -71,17 +71,16 @@ public class IMSView {
 		
 		splash.setVisible(true);
 	}
-	*/
+
 	
 	
 	void initUI(){
-		/*
+
 		try{
 			splash.dispose();
 		}
 		catch(NullPointerException npe){
 		}
-		*/
 			
 		mainFrame = new JFrame();
 		mainFrame.setTitle("NB Gardens IMS");
@@ -121,8 +120,6 @@ public class IMSView {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1,5));
 		
-		//IMSTableModel tableModel = new IMSTableModel();
-		
 		initializeTable();
 
 		
@@ -130,7 +127,6 @@ public class IMSView {
 		JButton refreshButton = new JButton("Refresh");
 		JButton addButton = new JButton("Add Product");
 		JButton deleteButton = new JButton("Delete");
-		//deleteButton.setEnabled(false);
 		
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(new JLabel());
@@ -140,6 +136,8 @@ public class IMSView {
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
+		ImagePanel iPanel = new ImagePanel("res/nbgicon.png");
+		mainPanel.add(iPanel, BorderLayout.WEST);
 		
 		printItem.addActionListener(controller);
 		exitItem.addActionListener(controller);
@@ -157,7 +155,7 @@ public class IMSView {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
 		int locationX = (screenSize.width - mainFrame.getWidth()) / 2;
-		int locationY = (screenSize.height = mainFrame.getHeight()) / 2;
+		int locationY = (screenSize.height - mainFrame.getHeight()) / 2;
 		mainFrame.setLocation(locationX,locationY);
 		
 		mainFrame.setVisible(true);
@@ -208,15 +206,6 @@ public class IMSView {
 			tableModel.addRow(oArray);
 			System.out.println(oArray[1]);
 		}
-		/*
-		productTable = new JTable(tableModel){
-			@Override
-			public boolean isCellEditable(int row, int column){
-				if(column == 2) return true;
-				return false;
-			}
-		};
-		*/	
 		
 		productTable.setModel(tableModel);
 		
@@ -238,21 +227,20 @@ public class IMSView {
 	
 	public class ImagePanel extends JPanel{
 		
-		private BufferedImage image;
-		
-		public ImagePanel(String fileName){
+		public ImagePanel(String address){
+			
+			JLabel imageLabel;
+			
 			try{
-				image = ImageIO.read(new File(fileName));
+				ImageIcon icon = new ImageIcon(address);
+				imageLabel = new JLabel();
+				imageLabel.setIcon(icon);
 			}
-			catch(IOException ioe){
-				System.err.println("Bad filename!");
+			catch(Exception e){
+				imageLabel = new JLabel("Image error!");
 			}
+			this.add(imageLabel);
 		}
 		
-		@Override
-		protected void paintComponent(Graphics g){
-			super.paintComponent(g);
-			g.drawImage(image,0,0,null);
-		}
 	}
 }
