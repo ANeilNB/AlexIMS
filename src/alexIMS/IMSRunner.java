@@ -1,14 +1,7 @@
 package alexIMS;
 
-import java.awt.Graphics2D;
-import java.awt.SplashScreen;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 
 /**
@@ -31,21 +24,27 @@ public class IMSRunner {
 	 */
 	public static void main(String[] args) {
 		
+
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
+		
 		IMSModel model = new IMSModel();
 		IMSView view = new IMSView(model);
 		IMSController controller = new IMSController(model, view);
 	
-		//view.createSplashScreen();
+		view.createSplashScreen();
 
-			
-		
-		
 		view.addController(controller);
 		
 		view.initUI();
-		//model.enableDecrementTimer();
-		//model.printStockReport();
-		//model.printStock();
 		
 	}
 	
