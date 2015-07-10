@@ -32,6 +32,8 @@ public class Product {
 	protected int requiredStock;
 	protected Date dateUpdated;
 	
+	static final int NUMBER_OF_VALUES = 7;
+	
 	Connection conn;
 	
 	public Product(int productId){
