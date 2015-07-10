@@ -92,12 +92,10 @@ public class IMSController implements ActionListener, TableModelListener {
 		default:
 			break;
 		}
-		//System.out.println("Action complete!");
 	}
 
 	@Override
 	public void tableChanged(TableModelEvent e) {
-		// TODO Auto-generated method stub
 		int row = e.getFirstRow();
 		TableModel tableModel = (TableModel)e.getSource();
 		
