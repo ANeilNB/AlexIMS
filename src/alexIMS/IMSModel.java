@@ -16,6 +16,8 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JOptionPane;
+
 /**
  * 
  * @author Alexander Neil
@@ -92,7 +94,10 @@ public class IMSModel {
 	 * Output is written to output/stockreport_yyyy-MM-dd_HH-mm.txt
 	 * Uses the reportFormat string to maintain alignment in the report for all legal product name lengths.
 	 */
-	protected void printStockReport(){		
+	protected boolean printStockReport(String filepath){
+		
+		
+		
 		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance()
 				.getTime());
 		String filenameDate = new SimpleDateFormat("yyyy-MM-dd_HH_mm").format(Calendar.getInstance()
@@ -109,7 +114,8 @@ public class IMSModel {
 		
 		//Attempts to write the built report string to the file.
 		try{
-			File file = new File("output/stockreport_" + filenameDate + ".txt");
+			
+			File file = new File(filepath, "stockreport_" + filenameDate + ".txt");
 		
 			if(!file.exists()) file.createNewFile();
 			
@@ -118,9 +124,10 @@ public class IMSModel {
 			writer.write(reportString);
 			writer.close();
 			//System.out.println("File Written!");
+			return true;
 		}
 		catch (IOException e){
-			e.printStackTrace();
+			return false;
 		}
 	}
 	

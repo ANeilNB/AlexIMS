@@ -82,7 +82,10 @@ public class IMSController implements ActionListener, TableModelListener {
 			}
 			break;
 		case "Print Stock Report":
-			model.printStockReport();
+			String filepath = (String)JOptionPane.showInputDialog(view.mainFrame, "Input folder to save:", 
+																	"Save location?", JOptionPane.QUESTION_MESSAGE);
+			if(!model.printStockReport(filepath)) JOptionPane.showMessageDialog(view.mainFrame, "Error writing to location!",
+																					"File Error", JOptionPane.ERROR_MESSAGE);
 			JOptionPane.showMessageDialog(view.mainFrame, "Report Generated!", "Success", 1);
 			break;
 		case "Enable Simulation":
