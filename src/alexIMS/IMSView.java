@@ -57,7 +57,11 @@ public class IMSView {
 		JLabel loadingLabel = new JLabel("Loading...");
 		loadingLabel.setFont(new Font("Serif", Font.PLAIN, 28));;
 		
-		splashPane.add(new ImagePanel("res/nbgardens.png"), BorderLayout.CENTER);
+		String path;
+		if(IMSRunner.primaryPath) path = IMSRunner.IMG_PATH_PRIMARY;
+		else path = IMSRunner.IMG_PATH_SECONDARY;
+		
+		splashPane.add(new ImagePanel(path + IMSRunner.LOGO_NAME), BorderLayout.CENTER);
 		splashPane.add(loadingLabel, BorderLayout.SOUTH);
 		
 		splash.setSize(500, 600);
@@ -86,8 +90,13 @@ public class IMSView {
 		mainFrame.setTitle("NB Gardens IMS");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		String path = IMSRunner.IMG_PATH_PRIMARY;
+		
 		try{
-			mainFrame.setIconImage(ImageIO.read(new File("res/nbgicon.png")));
+			
+			if(IMSRunner.primaryPath) path = IMSRunner.IMG_PATH_PRIMARY;
+			else path = IMSRunner.IMG_PATH_SECONDARY;
+			mainFrame.setIconImage(ImageIO.read(new File(path, IMSRunner.ICON_NAME)));
 		}
 		catch(IOException ioe){
 			System.out.println("Icon Error!");
@@ -136,7 +145,7 @@ public class IMSView {
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
-		ImagePanel iPanel = new ImagePanel("res/nbgicon.png");
+		ImagePanel iPanel = new ImagePanel(path + IMSRunner.LOGO_NAME);
 		mainPanel.add(iPanel, BorderLayout.WEST);
 		
 		printItem.addActionListener(controller);

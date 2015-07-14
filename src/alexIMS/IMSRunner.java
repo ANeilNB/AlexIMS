@@ -1,5 +1,7 @@
 package alexIMS;
 
+import java.io.File;
+
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -15,6 +17,14 @@ public class IMSRunner {
 	public static final String DB_URL = "jdbc:mysql://10.50.15.4:3306/nb_ims";
 	public static final String USER = "imanager";
 	public static final String PASS = "nbgardens";
+	
+	public static final String IMG_PATH_PRIMARY = "/home/developer/AlexIMS/res/";
+	public static final String IMG_PATH_SECONDARY = "res/";
+	
+	public static final String ICON_NAME = "nbgicon.png";
+	public static final String LOGO_NAME = "nbgardens.png";
+	
+	public static boolean primaryPath;
 
 	/**
 	 * Runs the NBGardens IMS system.
@@ -24,7 +34,15 @@ public class IMSRunner {
 	 */
 	public static void main(String[] args) {
 		
-
+		File f = new File(IMG_PATH_PRIMARY, LOGO_NAME);
+		
+		if(f.exists()){
+			primaryPath = true;
+		}
+		else{
+			primaryPath = false;
+		}
+		
 		try{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
