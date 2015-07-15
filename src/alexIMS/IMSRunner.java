@@ -24,6 +24,8 @@ public class IMSRunner {
 	public static final String ICON_NAME = "nbgicon.png";
 	public static final String LOGO_NAME = "nbgardens.png";
 	
+	public static final String TEMPLATE_NAME = "stockreporttemplate.docx";
+	
 	public static boolean primaryPath;
 
 	/**

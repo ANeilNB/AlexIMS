@@ -68,9 +68,11 @@ public class IMSController implements ActionListener, TableModelListener {
 					String newName = (String) newInfo.get("product_name");
 					int newStock = (int) newInfo.get("current_stock");
 					int newCritical = (int) newInfo.get("critical_stock");
+					int newRequired = (int) newInfo.get("required_stock");
 					double newPrice = (double) newInfo.get("product_price");
+					boolean newPorous = (boolean) newInfo.get("porousware");
 					
-					model.addProduct(newName, newStock, newCritical, newPrice);
+					model.addProduct(newName, newStock, newCritical, newRequired, newPrice, newPorous);
 					
 					addDialog.dispose();
 					
@@ -110,7 +112,7 @@ public class IMSController implements ActionListener, TableModelListener {
 		try{
 			int newStock = Integer.parseInt((String) tableModel.getValueAt(row, 2));
 			
-			if((newStock < 0)||(newStock > 2500)){
+			if((newStock < 0)||(newStock > 10000)){
 				JOptionPane.showMessageDialog(view.mainFrame, "Unreasonable value. (Below 0 or above 2500)", "Input Error!", JOptionPane.ERROR_MESSAGE);
 				view.tableModel.setValueAt(String.valueOf(model.productList.get(row).getCurrentStock()), row, e.getColumn());
 			}

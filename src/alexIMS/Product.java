@@ -30,7 +30,7 @@ public class Product {
 	protected double currentPrice;
 	protected int criticalStock;
 	protected int requiredStock;
-	protected Date dateUpdated;
+	protected boolean porousware;
 	
 	static final int NUMBER_OF_VALUES = 7;
 	
@@ -52,7 +52,7 @@ public class Product {
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
-			String sqlQuery = "SELECT product_name, current_stock, critical_stock, product_price FROM products WHERE product_id = ?;";
+			String sqlQuery = "SELECT product_name, current_stock, critical_stock, required_stock, product_price, porousware FROM products WHERE product_id = ?;";
 			stmt = conn.prepareStatement(sqlQuery);
 			stmt.setInt(1, productId);
 			
@@ -64,8 +64,8 @@ public class Product {
 			this.currentStock = rs.getInt("current_stock");
 			this.criticalStock = rs.getInt("critical_stock");
 			this.currentPrice = rs.getDouble("product_price");
-			//this.requiredStock = rs.getInt("required_stock");
-			//this.dateUpdated = rs.getDate("last_updated");
+			this.requiredStock = rs.getInt("required_stock");
+			this.porousware = rs.getBoolean("porousware");
 			//Removed until new database implementation!
 		}
 		catch(SQLException e){
@@ -96,11 +96,13 @@ public class Product {
 	 * @param currentPrice Price of the product.
 	 * @param criticalStock Amount of stock that is considered critically low.
 	 */
-	public Product(String productName, int currentStock, int criticalStock, double currentPrice){
+	public Product(String productName, int currentStock, int criticalStock, int requiredStock, double currentPrice, boolean porousware){
 		this.productName = productName;
 		this.currentStock = currentStock;
 		this.criticalStock = criticalStock;
 		this.currentPrice = currentPrice;
+		this.requiredStock = requiredStock;
+		this.porousware = porousware;
 		
 		conn = null;
 		PreparedStatement stmt = null;
@@ -111,12 +113,13 @@ public class Product {
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
-			String sqlQuery = "INSERT INTO products (product_name, current_stock, critical_stock, product_price) VALUES (?,?,?,?);";
+			String sqlQuery = "INSERT INTO products (product_name, current_stock, critical_stock, required_stock, product_price) VALUES (?,?,?,?,?);";
 			stmt = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, productName);
 			stmt.setInt(2,currentStock);
 			stmt.setInt(3, criticalStock);
-			stmt.setDouble(4, currentPrice);
+			stmt.setInt(4, requiredStock);
+			stmt.setDouble(5, currentPrice);
 			
 			int result = stmt.executeUpdate();
 			
@@ -206,6 +209,10 @@ public class Product {
 		return requiredStock;
 	}
 	
+	public boolean isPorousware(){
+		return porousware;
+	}
+	/*
 	public String getDateUpdated(){
 		
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -230,6 +237,7 @@ public class Product {
 			}
 		}
 	}
+	*/
 	
 	public void setRequiredStock(int requiredStock){
 		if(criticalStock > requiredStock){

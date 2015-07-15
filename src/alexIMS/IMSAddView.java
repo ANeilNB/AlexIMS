@@ -8,11 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -33,12 +35,17 @@ public class IMSAddView extends JDialog {
 	private JLabel criticalLabel;
 	private SpinnerNumberModel criticalInputModel;
 	private JSpinner criticalField;
+	private JLabel requiredLabel;
+	private SpinnerNumberModel requiredInputModel;
+	private JSpinner requiredField;
 	private JLabel priceLabel;
 	private SpinnerNumberModel priceInputModel;
 	private JSpinner priceField;
+	private JLabel porouswareLabel;
+	private JCheckBox porouswareField;
 	private JButton addButton;
 	private JButton cancelButton;
-	private HashMap productMap;
+	private HashMap<String, Object> productMap;
 	
 	private ActionListener addListener;
 	
@@ -51,7 +58,7 @@ public class IMSAddView extends JDialog {
 	void initGUI(){
 		System.out.println("Dialog");
 		
-		JPanel panel = new JPanel(new GridLayout(6,2));
+		JPanel panel = new JPanel(new GridLayout(8,2));
 		
 		try{
 			this.setIconImage(ImageIO.read(new File("res/nbgicon.png")));
@@ -64,7 +71,9 @@ public class IMSAddView extends JDialog {
 		nameLabel = new JLabel("Product Name");
 		stockLabel = new JLabel("Current Stock");
 		criticalLabel = new JLabel("Critical Stock");
+		requiredLabel = new JLabel("Required Stock");
 		priceLabel = new JLabel("Product Price");
+		porouswareLabel = new JLabel("Porousware?");
 				
 		try{
 			
@@ -80,8 +89,17 @@ public class IMSAddView extends JDialog {
 			criticalInputModel = new SpinnerNumberModel(1,0,9999,1);
 			criticalField = new JSpinner(criticalInputModel);
 			
-			priceInputModel = new SpinnerNumberModel(1.0,0,100000.00,1);
+			requiredInputModel = new SpinnerNumberModel(1,0,9999,1);
+			requiredField = new JSpinner(requiredInputModel);
+			
+			priceInputModel = new SpinnerNumberModel(1.0,0,100000.00,0.01);
 			priceField = new JSpinner(priceInputModel);
+			JSpinner.NumberEditor priceEditor = (JSpinner.NumberEditor) priceField.getEditor();
+			DecimalFormat format = priceEditor.getFormat();
+			format.setMinimumFractionDigits(2);
+			format.setMaximumFractionDigits(2);
+			
+			porouswareField = new JCheckBox();
 		}
 		catch(Exception e){
 			System.out.println("RIP MaskFormatter!");
@@ -98,6 +116,10 @@ public class IMSAddView extends JDialog {
 		panel.add(criticalLabel);
 		panel.add(stockField);
 		panel.add(criticalField);
+		panel.add(requiredLabel);
+		panel.add(porouswareLabel);
+		panel.add(requiredField);
+		panel.add(porouswareField);
 		panel.add(priceLabel);
 		panel.add(addButton);
 		panel.add(priceField);
@@ -137,13 +159,17 @@ public class IMSAddView extends JDialog {
 		String name;
 		int stock;
 		int critical;
+		int required;
 		double price;
+		boolean porousware;
 		
 		try{
 			name = nameField.getText();
 			stock = stockInputModel.getNumber().intValue();
 			critical = criticalInputModel.getNumber().intValue();
+			required = requiredInputModel.getNumber().intValue();
 			price = priceInputModel.getNumber().doubleValue();
+			porousware = porouswareField.isSelected();
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -153,11 +179,13 @@ public class IMSAddView extends JDialog {
 		
 		if(((name.length() > 3)&&(name.length() < 35))||((stock >= 1)&&(stock < 9999))||
 				((critical >= 1)&&(critical < 2000))||(price>0)){
-			productMap = new HashMap(5);
+			productMap = new HashMap<String, Object>(6);
 			productMap.put("product_name", name);
 			productMap.put("current_stock", stock);
 			productMap.put("critical_stock", critical);
+			productMap.put("required_stock", required);
 			productMap.put("product_price", price);
+			productMap.put("porousware", porousware);
 			return true;
 		}
 		else{
@@ -166,7 +194,7 @@ public class IMSAddView extends JDialog {
 		}
 	}
 	
-	HashMap getProductInfo(){
+	HashMap<String, Object> getProductInfo(){
 		if(validateInput()){
 			return productMap;
 		}

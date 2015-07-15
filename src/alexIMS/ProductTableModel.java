@@ -41,7 +41,7 @@ public class ProductTableModel extends AbstractTableModel {
 		case 6:
 			return p.getCurrentPrice();
 		case 7:
-			return p.getDateUpdated();
+			return p.isPorousware();
 		default:
 			return "Error";
 		}

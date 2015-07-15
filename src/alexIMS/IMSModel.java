@@ -45,7 +45,6 @@ public class IMSModel {
 	 * Uses {@link #addProduct(Product)}, passing Product's constructor a single integer to identify the product.
 	 */
 	void refreshProductList(){
-		Connection con;
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -102,6 +101,10 @@ public class IMSModel {
 		String filenameDate = new SimpleDateFormat("yyyy-MM-dd_HH_mm").format(Calendar.getInstance()
 				.getTime());
 		
+		
+		return false;
+		//Commented out, old code that prints to text document.
+		/*
 		//Constructs report to be written as a string
 		String reportString = "Stock Report - " + date + System.getProperty("line.separator")
 				+ "-------------------------" + System.getProperty("line.separator");
@@ -128,6 +131,7 @@ public class IMSModel {
 		catch (IOException e){
 			return false;
 		}
+		*/
 	}
 	
 	/**
@@ -146,8 +150,8 @@ public class IMSModel {
 	 * @param criticalStock What is considered critical stock level for the product
 	 * @param currentPrice The product's price
 	 */
-	void addProduct(String productName, int currentStock, int criticalStock, double currentPrice){
-		Product newProduct = new Product(productName, currentStock, criticalStock, currentPrice);
+	void addProduct(String productName, int currentStock, int criticalStock, int requiredStock, double currentPrice, boolean porousware){
+		Product newProduct = new Product(productName, currentStock, criticalStock, requiredStock, currentPrice, porousware);
 		addProduct(newProduct);
 		
 		//System.out.println("New product added");
