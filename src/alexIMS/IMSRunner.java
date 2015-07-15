@@ -14,7 +14,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class IMSRunner {
 	
 	public static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	public static final String DB_URL = "jdbc:mysql://10.50.15.4:3306/nb_ims";
+	public static final String DB_URL = "jdbc:mysql://10.50.15.11:3306/nb_ims";
 	public static final String USER = "imanager";
 	public static final String PASS = "nbgardens";
 	
