@@ -84,8 +84,12 @@ public class IMSController implements ActionListener, TableModelListener {
 			}
 			break;
 		case "Print Stock Report":
+			
+			String samplePath;
+			if(IMSRunner.primaryPath) samplePath = IMSRunner.OUTPUT_PATH_PRIMARY;
+			else samplePath = IMSRunner.OUTPUT_PATH_SECONDARY;
 			String filepath = (String)JOptionPane.showInputDialog(view.mainFrame, "Input folder to save:", 
-																	"/home/developer/AlexIMS/");
+																	samplePath);
 			if(filepath == null) break;
 			if(!model.printStockReport(filepath)) JOptionPane.showMessageDialog(view.mainFrame, "Error writing to location!",
 																					"File Error", JOptionPane.ERROR_MESSAGE);

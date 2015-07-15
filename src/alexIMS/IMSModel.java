@@ -1,9 +1,14 @@
 package alexIMS;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +22,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
+
+import hr.ngs.templater.Configuration;
+import hr.ngs.templater.ITemplateDocument;
 
 /**
  * 
@@ -82,7 +90,7 @@ public class IMSModel {
 				e.printStackTrace();
 			}
 			//Redundant on a successful database connection, as individual product connections will close the database.
-			System.out.println("Closed Database!");
+			//System.out.println("Closed Database!");
 		}	
 	}
 	
@@ -94,15 +102,67 @@ public class IMSModel {
 	 */
 	protected boolean printStockReport(String filepath){
 		
-		
-		
 		String date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance()
 				.getTime());
 		String filenameDate = new SimpleDateFormat("yyyy-MM-dd_HH_mm").format(Calendar.getInstance()
 				.getTime());
 		
 		
-		return false;
+		String templatePath;
+		String outputPath;
+		
+		if(IMSRunner.primaryPath){ 
+			templatePath = IMSRunner.RES_PATH_PRIMARY + IMSRunner.TEMPLATE_NAME;
+			outputPath = IMSRunner.OUTPUT_PATH_PRIMARY + filenameDate + "-NBGardensStockReport.docx";
+		}
+		else{
+			templatePath = IMSRunner.RES_PATH_SECONDARY + IMSRunner.TEMPLATE_NAME;
+			outputPath = IMSRunner.OUTPUT_PATH_SECONDARY + filenameDate + "-NBGardensStockReport.docx";
+		}
+		
+		try{
+			final InputStream inputTemplateStream = new FileInputStream(templatePath);
+			
+			final String[][] productsArr = new String[productList.size()+1][Product.NUMBER_OF_VALUES-2];
+			
+			productsArr[0][0] = "ID";
+			productsArr[0][1] = "Product Name";
+			productsArr[0][2] = "Current Stock";
+			productsArr[0][3] = "Required Stock";
+			productsArr[0][4] = "Has Porousware";
+			
+			int i=1;
+			for(Product p: productList){
+				productsArr[i][0] = "" + p.getProductId();
+				productsArr[i][1] = p.getProductName();
+				productsArr[i][2] = "" + p.getCurrentStock();
+				productsArr[i][3] = "" + p.getRequiredStock();
+				if(p.isPorousware()) productsArr[i][4] = "Y";
+				else productsArr[i][4] = "N";
+				
+				i++;
+			}
+			
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			final ITemplateDocument tpl = Configuration.factory().open(inputTemplateStream, "docx", baos);
+			tpl.templater().replace("Date", date);
+			tpl.templater().replace("productsArr", productsArr);
+			tpl.flush();
+			
+			final byte[] result = baos.toByteArray();
+			
+			final FileOutputStream fos = new FileOutputStream(outputPath);
+			fos.write(result);
+			fos.close();
+			
+		} catch(FileNotFoundException fnfe){
+			return false;
+		} catch(IOException ioe){
+			return false;
+		}
+		
+		return true;
+		
 		//Commented out, old code that prints to text document.
 		/*
 		//Constructs report to be written as a string

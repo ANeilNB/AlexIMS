@@ -58,8 +58,8 @@ public class IMSView {
 		loadingLabel.setFont(new Font("Serif", Font.PLAIN, 28));;
 		
 		String path;
-		if(IMSRunner.primaryPath) path = IMSRunner.IMG_PATH_PRIMARY;
-		else path = IMSRunner.IMG_PATH_SECONDARY;
+		if(IMSRunner.primaryPath) path = IMSRunner.RES_PATH_PRIMARY;
+		else path = IMSRunner.RES_PATH_SECONDARY;
 		
 		splashPane.add(new ImagePanel(path + IMSRunner.LOGO_NAME), BorderLayout.CENTER);
 		splashPane.add(loadingLabel, BorderLayout.SOUTH);
@@ -84,12 +84,12 @@ public class IMSView {
 		mainFrame.setTitle("NB Gardens IMS");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		String path = IMSRunner.IMG_PATH_PRIMARY;
+		String path = IMSRunner.RES_PATH_PRIMARY;
 		
 		try{
 			
-			if(IMSRunner.primaryPath) path = IMSRunner.IMG_PATH_PRIMARY;
-			else path = IMSRunner.IMG_PATH_SECONDARY;
+			if(IMSRunner.primaryPath) path = IMSRunner.RES_PATH_PRIMARY;
+			else path = IMSRunner.RES_PATH_SECONDARY;
 			mainFrame.setIconImage(ImageIO.read(new File(path, IMSRunner.ICON_NAME)));
 		}
 		catch(IOException ioe){

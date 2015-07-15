@@ -18,8 +18,11 @@ public class IMSRunner {
 	public static final String USER = "imanager";
 	public static final String PASS = "nbgardens";
 	
-	public static final String IMG_PATH_PRIMARY = "/home/developer/AlexIMS/res/";
-	public static final String IMG_PATH_SECONDARY = "res/";
+	public static final String RES_PATH_PRIMARY = "/home/developer/AlexIMS/res/";
+	public static final String RES_PATH_SECONDARY = "res/";
+	
+	public static final String OUTPUT_PATH_PRIMARY = "/home/developer/AlexIMS/output/";
+	public static final String OUTPUT_PATH_SECONDARY = "output/";
 	
 	public static final String ICON_NAME = "nbgicon.png";
 	public static final String LOGO_NAME = "nbgardens.png";
@@ -36,7 +39,7 @@ public class IMSRunner {
 	 */
 	public static void main(String[] args) {
 		
-		File f = new File(IMG_PATH_PRIMARY, LOGO_NAME);
+		File f = new File(RES_PATH_PRIMARY, LOGO_NAME);
 		
 		if(f.exists()){
 			primaryPath = true;
