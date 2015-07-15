@@ -50,6 +50,8 @@ public class IMSRunner {
 		IMSController controller = new IMSController(model, view);
 	
 		view.createSplashScreen();
+		
+		model.refreshProductList();
 
 		view.addController(controller);
 		

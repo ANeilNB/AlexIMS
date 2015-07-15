@@ -79,12 +79,6 @@ public class IMSView {
 	
 	
 	void initUI(){
-
-		try{
-			splash.dispose();
-		}
-		catch(NullPointerException npe){
-		}
 			
 		mainFrame = new JFrame();
 		mainFrame.setTitle("NB Gardens IMS");
@@ -166,6 +160,12 @@ public class IMSView {
 		int locationX = (screenSize.width - mainFrame.getWidth()) / 2;
 		int locationY = (screenSize.height - mainFrame.getHeight()) / 2;
 		mainFrame.setLocation(locationX,locationY);
+		
+		try{
+			splash.dispose();
+		}
+		catch(NullPointerException npe){
+		}
 		
 		mainFrame.setVisible(true);
 		

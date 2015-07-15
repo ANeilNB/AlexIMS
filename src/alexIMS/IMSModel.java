@@ -37,7 +37,6 @@ public class IMSModel {
 	 */
 	IMSModel(){
 		productList = new ArrayList<Product>();
-		refreshProductList();
 	}
 	
 
