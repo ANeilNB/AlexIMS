@@ -94,11 +94,12 @@ public class IMSModel {
 		}	
 	}
 	
-	
+
 	/**
-	 * Prints a simple stock report containing the date and the current stock levels of all items available.
-	 * Output is written to output/stockreport_yyyy-MM-dd_HH-mm.txt
-	 * Uses the reportFormat string to maintain alignment in the report for all legal product name lengths.
+	 * Uses the Templater library to print a stock report to a docx file using the template in the res folder.
+	 * Stock report is dated with the current date and time and includes product ID, name, current stock, required stock and porousware state.
+	 * @param filepath Path to save the report to
+	 * @return true if the file write was successful, false if it failed for any reason.
 	 */
 	protected boolean printStockReport(String filepath){
 		

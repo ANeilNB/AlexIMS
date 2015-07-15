@@ -24,6 +24,9 @@ public class IMSController implements ActionListener, TableModelListener {
 		this.view = view;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -104,6 +107,9 @@ public class IMSController implements ActionListener, TableModelListener {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.event.TableModelListener#tableChanged(javax.swing.event.TableModelEvent)
+	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		int row = e.getFirstRow();

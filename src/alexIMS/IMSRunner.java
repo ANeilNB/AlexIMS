@@ -33,8 +33,7 @@ public class IMSRunner {
 
 	/**
 	 * Runs the NBGardens IMS system.
-	 * Creates the model, view and controller classes and informs them of each other, then
-	 * starts the UI.
+	 * Creates the required classes for system operations, checks usable file paths and sets the flag of which path to use and generates the splash screen during these operations
 	 * @param args
 	 */
 	public static void main(String[] args) {

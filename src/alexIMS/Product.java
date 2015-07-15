@@ -36,6 +36,10 @@ public class Product {
 	
 	Connection conn;
 	
+	/**
+	 * Constructs a Product object from a product ID, using data taken from the nb_ims database.
+	 * @param productId The ID of the product this object represents
+	 */
 	public Product(int productId){
 		this.productId = productId;
 		/*
@@ -96,6 +100,14 @@ public class Product {
 	 * @param currentPrice Price of the product.
 	 * @param criticalStock Amount of stock that is considered critically low.
 	 */
+	/**
+	 * @param productName Name of the product
+	 * @param currentStock Current stock levels of the product
+	 * @param criticalStock Amount of stock that is critically low
+	 * @param requiredStock Amount of stock that is required during restocking
+	 * @param currentPrice Current price of the product
+	 * @param porousware If the item has porousware
+	 */
 	public Product(String productName, int currentStock, int criticalStock, int requiredStock, double currentPrice, boolean porousware){
 		this.productName = productName;
 		this.currentStock = currentStock;
@@ -153,10 +165,19 @@ public class Product {
 		}
 	}
 	
+	/**
+	 * Gets the current stock level of the product
+	 * @return Current stock level of the product
+	 */
 	public int getCurrentStock() {
 		return currentStock;
 	}
 	
+	/**
+	 * Updates the current stock level of the product and updates the database with this value
+	 * @param newStock New value of stock for the product to be set
+	 * @return If the new stock value entered is valid and accepted
+	 */
 	public boolean setCurrentStock(int newStock) {
 		
 		boolean increasedFlag = false;
@@ -176,22 +197,43 @@ public class Product {
 		//else if(currentStock <= criticalStock) System.out.println("Stock of " + productName + " critically low!");
 	}
 	
+	/**
+	 * Gets the ID of the product
+	 * @return The product's ID
+	 */
 	public int getProductId() {
 		return this.productId;
 	}
 	
+	/**
+	 * Gets the name of the product
+	 * @return The name of the product
+	 */
 	public String getProductName() {
 		return productName;
 	}
 	
+	/**
+	 * Gets the price of the product
+	 * @return The price of the product
+	 */
 	public double getCurrentPrice() {
 		return currentPrice;
 	}
 	
+	/**
+	 * Gets the critical stock level of the product
+	 * @return the level at which stock is critical
+	 */
 	public int getCriticalStock() {
 		return criticalStock;
 	}
 	
+	/**
+	 * Sets the critical stock level to a new value.
+	 * Validated to make sure it is not greater than the required stock level
+	 * @param criticalStock The new critical stock value to be set
+	 */
 	public void setCriticalStock(int criticalStock){
 		if(criticalStock > requiredStock){
 			//Error
@@ -201,14 +243,26 @@ public class Product {
 		}
 	}
 	
+	/**
+	 * Gets the price of the product
+	 * @return the price of the product
+	 */
 	public double getPrice() {
 		return currentPrice;
 	}
 	
+	/**
+	 * Gets the required stock level of the product
+	 * @return the required stock level of the product
+	 */
 	public int getRequiredStock(){
 		return requiredStock;
 	}
 	
+	/**
+	 * Returns if the product has porousware or not
+	 * @return if the product is porouswared or not
+	 */
 	public boolean isPorousware(){
 		return porousware;
 	}
@@ -239,6 +293,11 @@ public class Product {
 	}
 	*/
 	
+	/**
+	 * Sets the required stock of the product to a new value.
+	 * Checks to make sure the new required stock level is valid ie, not below the critical threshold
+	 * @param requiredStock
+	 */
 	public void setRequiredStock(int requiredStock){
 		if(criticalStock > requiredStock){
 			//Error
@@ -249,6 +308,9 @@ public class Product {
 	}
 	
 
+	/**
+	 * Updates the database with new stock levels
+	 */
 	private void updateStock(){
 		
 		conn = null;
@@ -295,11 +357,15 @@ public class Product {
 	 * or below the critical threshold (criticalStock).
 	 * @return true if stock is at or below critical threshold, false if it is above.
 	 */
+
 	public boolean checkStock(){
 		if(currentStock <= criticalStock) return true;
 		return false;
 	}
 	
+	/**
+	 * Removes the product from the database.
+	 */
 	public void deleteProduct(){
 		conn = null;
 		PreparedStatement stmt = null;

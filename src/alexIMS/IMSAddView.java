@@ -55,6 +55,10 @@ public class IMSAddView extends JDialog {
 	}
 		
 		
+	/**
+	 * Creates the product creation GUI.
+	 * Creates and adds all elements as well as calibration to ensure only valid entries can be input.
+	 */
 	void initGUI(){
 		System.out.println("Dialog");
 		
@@ -149,10 +153,18 @@ public class IMSAddView extends JDialog {
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Takes an ActionListener to capture the action to create the product.
+	 * @param al ActionListener that will handle new product adding
+	 */
 	void setAddActionListener(ActionListener al){
 		this.addListener = al;
 	}
 	
+	/**
+	 * Validates the input currently in the fields on the UI.
+	 * @return true if the input is valid, false if it is not
+	 */
 	boolean validateInput(){
 		
 		int id;
@@ -194,6 +206,10 @@ public class IMSAddView extends JDialog {
 		}
 	}
 	
+	/**
+	 * Returns a HashMap of data a Product requires, using hash keys with the same names as database columns
+	 * @return HashMap of product data
+	 */
 	HashMap<String, Object> getProductInfo(){
 		if(validateInput()){
 			return productMap;

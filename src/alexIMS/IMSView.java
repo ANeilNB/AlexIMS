@@ -35,16 +35,28 @@ public class IMSView {
 	DefaultTableModel tableModel;
 	
 	
+	/**
+	 * Initializes the view with the model
+	 * @param model
+	 */
 	IMSView(IMSModel model){
 		this.model = model;
 		
 	}
 	
+	/**
+	 * Sets the relevant controller for the view.
+	 * @param controller The controller that relates to the view
+	 */
 	void addController(IMSController controller){
 		this.controller = controller;
 	}
 	
 
+	/**
+	 * Creates the splash screen for the program.
+	 * Displays a borderless JFrame in the center of the screen containing the NBGardens logo and loading status text.
+	 */
 	void createSplashScreen(){
 		
 		splash = new JFrame();
@@ -78,6 +90,10 @@ public class IMSView {
 
 	
 	
+	/**
+	 * Initializes the main UI.
+	 * Creates all of the UI elements, initializes the table and actionlisteners and sets the frame to show in the center of the screen.
+	 */
 	void initUI(){
 			
 		mainFrame = new JFrame();
@@ -152,6 +168,8 @@ public class IMSView {
 		addButton.addActionListener(controller);
 		deleteButton.addActionListener(controller);
 		
+		deleteButton.setEnabled(false);
+		
 		mainFrame.setJMenuBar(topMenuBar);
 		mainFrame.setContentPane(mainPanel);
 		mainFrame.pack();
@@ -174,6 +192,10 @@ public class IMSView {
 	}
 
 	
+	/**
+	 * Initializes the table with column names and adds the products from the model to it.
+	 * Also sets widths for the columns and ensures uneditability for all non-stock columns.
+	 */
 	void initializeTable(){
 
 		productTable = null;
@@ -211,6 +233,9 @@ public class IMSView {
 		System.out.println("Table call");
 	}
 	
+	/**
+	 * Refreshes the table with new data.
+	 */
 	void refreshTable(){
 		
 		tableModel.removeTableModelListener(controller);
@@ -242,8 +267,18 @@ public class IMSView {
 
 	}
 	
+	
+	/**
+	 * A simple class to show an image in a JPanel.
+	 * @author aneil
+	 *
+	 */
 	public class ImagePanel extends JPanel{
 		
+		/**
+		 * Creates a JLabel that renders an image on top of a JPanel
+		 * @param address Address of the image
+		 */
 		public ImagePanel(String address){
 			
 			JLabel imageLabel;
