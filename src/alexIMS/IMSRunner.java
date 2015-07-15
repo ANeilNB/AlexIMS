@@ -43,12 +43,7 @@ public class IMSRunner {
 			primaryPath = false;
 		}
 		
-		try{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch(Exception e){
-			//UIManager error of some kind.
-		}
+		
 		
 		IMSModel model = new IMSModel();
 		IMSView view = new IMSView(model);
