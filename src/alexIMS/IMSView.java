@@ -230,7 +230,7 @@ public class IMSView {
 
 		tableModel.addTableModelListener(controller);
 		
-		System.out.println("Table call");
+		//System.out.println("Table call");
 	}
 	
 	/**

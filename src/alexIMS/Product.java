@@ -52,7 +52,7 @@ public class Product {
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(IMSRunner.JDBC_DRIVER);
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
@@ -89,7 +89,7 @@ public class Product {
 			catch (SQLException e){
 				e.printStackTrace();
 			}
-			System.out.println("Closed Database!");
+			//System.out.println("Closed Database!");
 		}
 		
 	}
@@ -121,7 +121,7 @@ public class Product {
 		ResultSet rs;
 		try{
 			Class.forName(IMSRunner.JDBC_DRIVER);
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
@@ -141,7 +141,7 @@ public class Product {
 			
 			this.productId = rs.getInt(1);
 			
-			System.out.println("Update result: " + result);
+			//System.out.println("Update result: " + result);
 			
 		}
 		catch(SQLException e){
@@ -161,7 +161,7 @@ public class Product {
 			catch (SQLException e){
 				e.printStackTrace();
 			}
-			System.out.println("Closed Database!");
+			//System.out.println("Closed Database!");
 		}
 	}
 	
@@ -317,7 +317,7 @@ public class Product {
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(IMSRunner.JDBC_DRIVER);
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 
 			
@@ -328,7 +328,7 @@ public class Product {
 			
 			int result = stmt.executeUpdate();
 			
-			System.out.println(result);
+			//System.out.println(result);
 			
 		}
 		catch(SQLException e){
@@ -348,7 +348,7 @@ public class Product {
 			catch (SQLException e){
 				e.printStackTrace();
 			}
-			System.out.println("Closed Database!");
+			//System.out.println("Closed Database!");
 		}
 	}
 	
@@ -371,7 +371,7 @@ public class Product {
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(IMSRunner.JDBC_DRIVER);
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 
 			
@@ -381,7 +381,7 @@ public class Product {
 			
 			int result = stmt.executeUpdate();
 			
-			System.out.println(result);
+			//System.out.println(result);
 			
 		}
 		catch(SQLException e){
@@ -401,7 +401,7 @@ public class Product {
 			catch (SQLException e){
 				e.printStackTrace();
 			}
-			System.out.println("Closed Database!");
+			//System.out.println("Closed Database!");
 		}
 	}
 

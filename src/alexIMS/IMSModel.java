@@ -58,7 +58,7 @@ public class IMSModel {
 		PreparedStatement stmt = null;
 		try{
 			Class.forName(IMSRunner.JDBC_DRIVER);
-			System.out.println("Connecting to database...");
+			//System.out.println("Connecting to database...");
 			conn = DriverManager.getConnection(IMSRunner.DB_URL, IMSRunner.USER, IMSRunner.PASS);
 			
 			
@@ -228,7 +228,7 @@ public class IMSModel {
 			if(p.getProductId() == removeId){
 				p.deleteProduct();
 				productList.remove(p);
-				System.out.println("Product removed");
+				//System.out.println("Product removed");
 				return;
 			}
 		}
