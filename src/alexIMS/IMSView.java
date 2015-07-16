@@ -81,8 +81,8 @@ public class IMSView {
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
-		int locationX = (screenSize.width - splash.getWidth()) / 2;
-		int locationY = (screenSize.height = splash.getHeight()) / 2;
+		int locationX = ((screenSize.width - splash.getWidth()) / 2)+25;
+		int locationY = ((screenSize.height = splash.getHeight()) / 2)+25;
 		splash.setLocation(locationX,locationY);
 		
 		splash.setVisible(true);
@@ -109,7 +109,7 @@ public class IMSView {
 			mainFrame.setIconImage(ImageIO.read(new File(path, IMSRunner.ICON_NAME)));
 		}
 		catch(IOException ioe){
-			System.out.println("Icon Error!");
+			//System.out.println("Icon Error!");
 		}
 		JMenuBar topMenuBar = new JMenuBar();
 		topMenuBar.setOpaque(true);
@@ -219,11 +219,14 @@ public class IMSView {
 		productTable.getColumnModel().getColumn(0).setMinWidth(20);
 		productTable.getColumnModel().getColumn(1).setPreferredWidth(175);
 		productTable.getColumnModel().getColumn(1).setPreferredWidth(175);
-		productTable.getColumnModel().getColumn(2).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(3).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(4).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(6).setPreferredWidth(20);
+		productTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(3).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(4).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(5).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(6).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(6).setMinWidth(25);
+		
+		//productTable.setRowSorter(new TableRowSorter(tableModel));
 		
 		mainPanel.add(new JScrollPane(this.productTable), BorderLayout.CENTER);
 		
@@ -243,7 +246,7 @@ public class IMSView {
 		for(Product p : model.productList){
 			Object[] oArray = {p.getProductId(), p.getProductName(), p.getCurrentStock(), p.getCriticalStock(), p.getRequiredStock(), p.isPorousware(), p.getPrice()};
 			tableModel.addRow(oArray);
-			System.out.println(oArray[1]);
+			//System.out.println(oArray[1]);
 		}
 		
 		productTable.setModel(tableModel);
@@ -255,15 +258,16 @@ public class IMSView {
 		productTable.getColumnModel().getColumn(0).setMinWidth(20);
 		productTable.getColumnModel().getColumn(1).setPreferredWidth(175);
 		productTable.getColumnModel().getColumn(1).setPreferredWidth(175);
-		productTable.getColumnModel().getColumn(2).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(3).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(4).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-		productTable.getColumnModel().getColumn(6).setPreferredWidth(20);	
+		productTable.getColumnModel().getColumn(2).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(3).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(4).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(5).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(6).setPreferredWidth(25);
+		productTable.getColumnModel().getColumn(6).setMinWidth(25);
 		
 		tableModel.addTableModelListener(controller);
 		
-		System.out.println("Table call");
+		//System.out.println("Table call");
 
 	}
 	

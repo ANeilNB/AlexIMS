@@ -60,7 +60,7 @@ public class IMSAddView extends JDialog {
 	 * Creates and adds all elements as well as calibration to ensure only valid entries can be input.
 	 */
 	void initGUI(){
-		System.out.println("Dialog");
+		//System.out.println("Dialog");
 		
 		JPanel panel = new JPanel(new GridLayout(8,2));
 		
@@ -68,7 +68,7 @@ public class IMSAddView extends JDialog {
 			this.setIconImage(ImageIO.read(new File("res/nbgicon.png")));
 		}
 		catch(IOException ioe){
-			System.out.println("Icon Error!");
+			//System.out.println("Icon Error!");
 		}
 		
 		idLabel = new JLabel("Product Id (optional)");
@@ -106,7 +106,7 @@ public class IMSAddView extends JDialog {
 			porouswareField = new JCheckBox();
 		}
 		catch(Exception e){
-			System.out.println("RIP MaskFormatter!");
+			//System.out.println("RIP MaskFormatter!");
 		}
 		
 		addButton = new JButton("Add");
@@ -201,7 +201,7 @@ public class IMSAddView extends JDialog {
 			return true;
 		}
 		else{
-			System.err.println("Rekt");
+			//System.err.println("Rekt");
 			return false;
 		}
 	}

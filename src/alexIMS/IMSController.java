@@ -31,7 +31,7 @@ public class IMSController implements ActionListener, TableModelListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		
-		System.out.println(e.getActionCommand());
+		//System.out.println(e.getActionCommand());
 		String actionName = e.getActionCommand();
 		
 		switch (actionName){
@@ -50,7 +50,7 @@ public class IMSController implements ActionListener, TableModelListener {
 		case "Delete":
 			int row = view.productTable.getSelectedRow();
 			
-			System.out.println(row);
+			//System.out.println(row);
 			
 			if(row == -1){
 				JOptionPane.showMessageDialog(view.mainFrame, "No row selected!", "Error",0);
@@ -141,7 +141,7 @@ public class IMSController implements ActionListener, TableModelListener {
 		}
 		finally{
 			tableModel.addTableModelListener(this);
-			System.out.println(model.productList.get(row).getCurrentStock());
+			//System.out.println(model.productList.get(row).getCurrentStock());
 		}
 	}
 }
